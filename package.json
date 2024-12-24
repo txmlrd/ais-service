@@ -1,0 +1,26 @@
+{
+  "name": "npm-install-express",
+  "version": "1.0.0",
+  "description": "express magang",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "author": "hasyim",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "openai": "^4.24.7"
+  },
+  "keywords": [
+    "node",
+    "script.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "node script.js"
+  },
+  "devDependencies": {
+    "electron": "^28.1.4"
+  }
+}
