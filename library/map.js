@@ -45,7 +45,7 @@ var open_street_map = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y
 var markers = {};
 
 // WebSocket untuk menerima data secara real-time
-const socket = new WebSocket("ws://localhost:8080");
+const socket = new WebSocket(process.env.STATUS === "production" ? "ws://localhost:8080" : "ws://167.71.197.48:8080");
 
 socket.onmessage = (event) => {
   const data = JSON.parse(event.data);
