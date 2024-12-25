@@ -9,6 +9,7 @@
   "author": "hasyim",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^4.18.2",
     "openai": "^4.24.7"
   },

@@ -196,6 +196,11 @@ License: You must have a valid license purchased only from themeforest(the above
                     <img src="assets/emisi.svg" alt="Emisi" >
                   </a>
                 </li>
+                <li>
+                  <a title="Display Data" href="javascript:opendisplayDataModal();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <img src="assets/flow.svg" alt="Flow" >
+                  </a>
+                </li>
              </ul>
           </div>
         </div>
@@ -464,6 +469,46 @@ License: You must have a valid license purchased only from themeforest(the above
   </div>
 </div>
 
+<!-- start menu display -->
+<div id="displayDataModal" class="hidden fixed inset-0 z-50 flex justify-center items-center">
+  <!-- Modal Background with opacity -->
+  <div class="absolute inset-0" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+
+  <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto bg-white rounded-lg shadow dark:bg-gray-700">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <!-- Modal header -->
+          <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+              <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                  Flow Rate
+              </h3>
+              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="closeDisplayDataModal();">
+                  <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                  <span class="sr-only">Tutup</span>
+              </button>
+          </div>
+          <!-- Modal body -->
+          <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
+ <input type="file" id="csvFileInput" accept=".csv" onchange="handleCSVUpload(event)" />
+ <canvas id="csvFlowRateChart" width="400" height="200"></canvas>
+ <div class="p-4">
+  <p><strong>Flow Rate (Display):</strong> <span id="currentFlowRateDisplay">0.00</span> L/m</p>
+  <p><strong>Average Flow Rate per Minute (Display):</strong></p>
+  <ul id="averageFlowRatesDisplayList"></ul> 
+  <p><strong>Volume (Display):</strong> <span id="accumulatedAverageDisplay">0.00</span> Liter</p>
+</div>
+
+
+            
+          </div>
+          <!-- Modal footer -->
+          <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+              <button onclick="closeDisplayDataModal();" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
+          </div>
+      </div>
+  </div>
+</div>
+
 <!-- start menu flowrate -->
 <!-- Flow Rate Modal -->
 <div id="flowModal" class="hidden fixed inset-0 z-50 flex justify-center items-center">
@@ -485,6 +530,13 @@ License: You must have a valid license purchased only from themeforest(the above
           </div>
           <!-- Modal body -->
           <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
+            <button id="startRecordingBtn" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+              Start Recording
+            </button>
+            <button id="stopRecordingBtn" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300" disabled>
+              Stop Recording
+            </button>
+            
             <div class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
                 <circle cx="5" cy="5" r="5" fill="blue" />
@@ -523,121 +575,223 @@ License: You must have a valid license purchased only from themeforest(the above
   </div>
 </div>
 <!-- start acumulation script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-// Variabel untuk menyimpan nilai flowRate yang diterima dari WebSocket
-var flowRate = 0;
+  // Setup chart for flowRate
+  var ctx = document.getElementById('csvFlowRateChart').getContext('2d');
+  var csvFlowRateChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: [],
+          datasets: [{
+              label: 'Flow Rate (L/m)',
+              data: [],
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 2,
+              fill: false,
+              tension: 0.1
+          }]
+      },
+      options: {
+          scales: {
+              x: {
+                  title: { display: true, text: 'Time (hh:mm:ss)' }
+              },
+              y: {
+                  beginAtZero: true,
+                  title: { display: true, text: 'Flow Rate (L/m)' }
+              }
+          }
+      }
+  });
+  
+  // For Display
+  var flowRates = []; // Stores all flow rates from CSV
+  var totalVolume = 0; // Total volume in liters
+  var currentFlowRate = 0.00;
+  var minuteCounter = 0; // To track minutes
+  
+  // Handle CSV file upload
+  function handleCSVUpload(event) {
+      var file = event.target.files[0];
+      if (file && file.name.endsWith('.csv')) {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+              var content = e.target.result;
+              parseCSV(content);
+          };
+          reader.readAsText(file);
+      } else {
+          alert('Please upload a valid CSV file.');
+      }
+  }
+  
+  // Parse CSV content and update chart and calculations
+  function parseCSV(csvContent) {
+      var lines = csvContent.split('\n');
+      var labels = [];
+      var data = [];
+      var minuteData = []; // Stores flow rates for each minute
+  
+      // Skip the header (first row) and parse the rest
+      for (var i = 1; i < lines.length; i++) {
+          var row = lines[i].split(',');
+          if (row.length === 3) {  // Ensure the row has 3 columns (Time, Second, FlowRate)
+              var time = row[0].trim();
+              var flowRate = parseFloat(row[2].trim());
+              
+              if (!isNaN(flowRate)) {
+                  labels.push(time);
+                  data.push(flowRate);
+                  flowRates.push(flowRate);  // Add flow rate to array
+                  totalVolume += flowRate;   // Update total volume in liters
+                  
+                  // Group data by minute
+                  if (minuteData[minuteCounter] === undefined) {
+                      minuteData[minuteCounter] = [];
+                  }
+                  minuteData[minuteCounter].push(flowRate);
+              }
+          }
+      }
+  
+      // Update chart with parsed data
+      csvFlowRateChart.data.labels = labels;
+      csvFlowRateChart.data.datasets[0].data = data;
+      csvFlowRateChart.update();
+  
+      // Update display for flow rate and volume
+      currentFlowRate = flowRates[flowRates.length - 1];
+      document.getElementById('currentFlowRateDisplay').textContent = currentFlowRate.toFixed(2);
+  
+      // Display average flow rate per minute
+      displayAverageFlowRatePerMinute(minuteData);
+  
+      // Display accumulated volume
+      document.getElementById('accumulatedAverageDisplay').textContent = totalVolume.toFixed(2);
+  }
+  
+  // Calculate and display average flow rate per minute
+  function displayAverageFlowRatePerMinute(minuteData) {
+      // Clear previous list
+      var averageFlowRatesList = document.getElementById('averageFlowRatesDisplayList');
+      averageFlowRatesList.innerHTML = '';
+  
+      // Calculate and display average for each minute
+      minuteData.forEach(function(minuteFlowRates, index) {
+          var averageFlowRate = minuteFlowRates.reduce(function(a, b) { return a + b; }, 0) / minuteFlowRates.length;
+          var listItem = document.createElement('li');
+          listItem.textContent = `Minute ${index + 1}: ${averageFlowRate.toFixed(2)} L/m`;
+          averageFlowRatesList.appendChild(listItem);
+      });
+  }
+  
+  </script>
+  
+<script>
+  // Variables to store flowRate data from WebSocket
+  var flowRate = 0;
+  var flowRatePerSecond = [];
+  var averagePerMinute = [];
+  var accumulatedAverage = 0;
 
-// Variabel untuk menyimpan data flowRate per detik (untuk menghitung rata-rata per menit)
-var flowRatePerSecond = [];
+  // WebSocket to get flowRate data (dummy WebSocket simulation for now)
+  var ws = new WebSocket('ws://167.71.197.48:1880/ws/flowrate');
+  
+  ws.onmessage = function(event) {
+      console.log('Received WebSocket data:', event.data);
+  
+      try {
+          var data = JSON.parse(event.data);
+          flowRate = parseFloat(data.flowRate.replace(/[^0-9.]/g, ''));  // Ensure only numbers are used
+          console.log('Flow rate updated:', flowRate);
+  
+          // Update flow rate display
+          document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
+      } catch (error) {
+          console.error('Error parsing WebSocket message:', error);
+      }
+  };
 
-// Variabel untuk menyimpan rata-rata flowRate per menit
-var averagePerMinute = [];
+  // Simulate flowRate data with dummy values (for testing purposes)
+  // function generateDummyFlowRate() {
+  //     return (Math.random() * 10).toFixed(2);  // Generate a random flowRate between 0 and 10 L/m
+  // }
 
-// Variabel untuk menyimpan akumulasi rata-rata flowRate
-var accumulatedAverage = 0;
+  // Dummy WebSocket message handler (for testing purposes)
+  // Simulate receiving flowRate data every second if WebSocket isn't available
+  setInterval(function() {
+      // if (!flowRate) { // If WebSocket hasn't received data yet, use dummy data
+      //     flowRate = parseFloat(generateDummyFlowRate());  // Get dummy flowRate
+      //     console.log('Flow rate updated (dummy):', flowRate);
+      // }
 
-// WebSocket untuk mengambil data flowRate
-var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
+      // Update flow rate display
+      document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
 
-ws.onmessage = function(event) {
-    console.log('Received WebSocket data:', event.data);
+      // Record data for calculation
+      flowRatePerSecond.push(flowRate);
 
-    try {
-        var data = JSON.parse(event.data); // Mengambil data JSON dari WebSocket
+      // Calculate average every 60 seconds
+      if (flowRatePerSecond.length === 60) {
+          calculateAverages();
+      }
+  }, 1000);  // Simulate data every second
 
-        // Ambil nilai flowRate dari data yang diterima
-        flowRate = parseFloat(data.flowRate.replace(/[^0-9.]/g, ''));  // Pastikan hanya angka yang diambil
-        console.log('Flow rate updated:', flowRate);
+  // Function to calculate average flowRate per minute and emissions
+  function calculateAverages() {
+      // Always calculate even if the flow rate is 0
+      if (flowRatePerSecond.length === 60) {
+          var sum = flowRatePerSecond.reduce((a, b) => a + b, 0);
+          var minuteAverage = sum / 60;  // Calculate minute average
+          averagePerMinute.push(minuteAverage);
 
-        // Update flow rate display
-        document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
-    } catch (error) {
-        console.error('Error parsing WebSocket message:', error);
-    }
-};
+          accumulatedAverage += minuteAverage;
 
-var startTime = new Date().getTime();
+          // Calculate volume and carbon emissions
+          var volume = minuteAverage;
+          var carbonEmission = calculateCarbonEmission(volume);
+          var conversionResult = calculateConversion(carbonEmission);
 
-// Fungsi untuk menghitung rata-rata flowRate per menit dan akumulasinya
-function calculateAverages() {
-    // Menghitung rata-rata per menit setiap 60 detik
-    if (flowRatePerSecond.length === 60) {
-        var sum = flowRatePerSecond.reduce((a, b) => a + b, 0);
-        var minuteAverage = sum / 60; // Rata-rata per menit
-        averagePerMinute.push(minuteAverage);
+          // Update carbon emissions display
+          var carbonEmissionText = `Minute ${averagePerMinute.length}: ${carbonEmission.toFixed(2)} grams`;
+          var listItem = document.createElement("li");
+          listItem.textContent = carbonEmissionText;
+          document.getElementById('carbonEmissionsList').appendChild(listItem);
 
-        // Akumulasi rata-rata per menit
-        accumulatedAverage += minuteAverage;
+          // Update conversion result display
+          var conversionText = `Minute ${averagePerMinute.length}: ${conversionResult.toFixed(2)} g-CO2/ton.Nm`;
+          var listItem3 = document.createElement("li");
+          listItem3.textContent = conversionText;
+          document.getElementById('conversionResultsList').appendChild(listItem3);
 
-        // Menghitung volume (dalam liter) per menit dari rata-rata flow rate per menit
-        var volume = minuteAverage;
-        
-        // Menghitung emisi karbon
-        var carbonEmission = calculateCarbonEmission(volume);
+          // Update average flow rates display
+          var minuteText = `Minute ${averagePerMinute.length}: ${minuteAverage.toFixed(2)} L/m`;
+          var listItem2 = document.createElement("li");
+          listItem2.textContent = minuteText;
+          document.getElementById('averageFlowRatesList').appendChild(listItem2);
 
-        // Menghitung hasil konversi berdasarkan emisi karbon
-        var conversionResult = calculateConversion(carbonEmission);
+          // Display accumulated average
+          document.getElementById('accumulatedAverage').textContent = accumulatedAverage.toFixed(2);
 
-        // Update display emisi karbon
-        var carbonEmissionText = `Minute ${averagePerMinute.length}: ${carbonEmission.toFixed(2)} grams`;
-        var listItem = document.createElement("li");
-        listItem.textContent = carbonEmissionText;
-        document.getElementById('carbonEmissionsList').appendChild(listItem);
+          // Reset flowRate per second array for the next minute
+          flowRatePerSecond = [];
+      }
+  }
 
-        // Update display hasil konversi
-        var conversionText = `Minute ${averagePerMinute.length}: ${conversionResult.toFixed(2)} g-CO2/ton.Nm`;
-        var listItem3 = document.createElement("li");
-        listItem3.textContent = conversionText;
-        document.getElementById('conversionResultsList').appendChild(listItem3);
-
-        // Update rata-rata per menit display (menambah list dengan menit ke-n)
-        var minuteText = `Minute ${averagePerMinute.length}: ${minuteAverage.toFixed(2)} L/m`;
-        var listItem2 = document.createElement("li");
-        listItem2.textContent = minuteText;
-        document.getElementById('averageFlowRatesList').appendChild(listItem2);
-
-        console.log(`Rata-rata menit ${averagePerMinute.length}:`, minuteAverage);
-        console.log('Akumulasi rata-rata:', accumulatedAverage);
-
-        // Update akumulasi rata-rata display
-        document.getElementById('accumulatedAverage').textContent = accumulatedAverage.toFixed(2);
-
-        // Reset data flowRate per detik untuk perhitungan menit berikutnya
-        flowRatePerSecond = [];
-    }
-}
-
-// Fungsi untuk menghitung emisi karbon dari volume
-function calculateCarbonEmission(volume) {
-    // Langkah-langkah perhitungan langsung dari volume (liter)
-    var carbonEmission = volume * 0.89;  // Menghitung emisi karbon dalam gram
-    return carbonEmission;
-}
-
-function calculateConversion(carbonEmission) {
-    // Rumus konversi
-    var conversionResult = (carbonEmission * 3.151) / (192 * 2);
-    return conversionResult;
-}
-
-
-// Update setiap detik
-setInterval(function() {
-    var currentTime = new Date().getTime();
-    var timeInSeconds = ((currentTime - startTime) / 1000).toFixed(0); // Waktu dalam detik
-
-    // Masukkan flowRate ke dalam array per detik, meskipun flowRate 0
-    flowRatePerSecond.push(flowRate);
-
-    // Hitung rata-rata per menit dan akumulasi setiap 60 detik
-    if (flowRatePerSecond.length === 60) {
-        calculateAverages();
-    }
-
-}, 1000);  // Update setiap 1 detik (1000ms)
+  // Function to calculate carbon emission from volume (liter)
+  function calculateCarbonEmission(volume) {
+      return volume * 0.89;  // Calculate emission in grams
+  }
+  
+  // Function for emission conversion
+  function calculateConversion(carbonEmission) {
+      return (carbonEmission * 3.151) / (192 * 2);
+  }
 </script>
-<!-- end acumulation script -->
+
 <script>
+  // Modal control functions
   function openflowModal() {
       document.getElementById('flowModal').classList.remove('hidden');
   }
@@ -645,6 +799,7 @@ setInterval(function() {
   function closeflowModal() {
       document.getElementById('flowModal').classList.add('hidden');
   }
+
   function opencarbonModal() {
       document.getElementById('carbonModal').classList.remove('hidden');
   }
@@ -652,33 +807,57 @@ setInterval(function() {
   function closeCarbonModal() {
       document.getElementById('carbonModal').classList.add('hidden');
   }
+
+  function opendisplayDataModal() {
+      document.getElementById('displayDataModal').classList.remove('hidden');
+  }
+
+  function closeDisplayDataModal() {
+      document.getElementById('displayDataModal').classList.add('hidden');
+  }
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  // Variabel untuk menyimpan nilai flowRate yang diterima dari WebSocket
-  var flowRate = 0;
+  var recording = false;  // To track if recording is active
+  var recordedData = [];  // Store recorded data
 
-  // Membuka koneksi WebSocket
-  var ws = new WebSocket('ws://localhost:1880/ws/flowrate');  // Ganti dengan URL WebSocket Anda
+  var ws = new WebSocket('ws://167.71.197.48:1880/ws/flowrate');
+  var lastRecordedSecond = null; // Track the last recorded second
 
-  ws.onmessage = function(event) {
-      console.log('Received WebSocket data:', event.data);
-      
-      try {
-          var data = JSON.parse(event.data);  // Mengambil data JSON dari WebSocket
-          flowRate = parseFloat(data.flowRate.replace(/[^0-9.]/g, ''));  // Pastikan hanya angka yang diambil
-          console.log('Flow rate updated:', flowRate);
-      } catch (error) {
-          console.error('Error parsing WebSocket message:', error);
-      }
-  };
+ws.onmessage = function(event) {
+    console.log('Received WebSocket data:', event.data);
 
+    try {
+        var data = JSON.parse(event.data);
+        flowRate = parseFloat(data.flowRate.replace(/[^0-9.]/g, '')); // Ensure only numbers
+        console.log('Flow rate updated:', flowRate);
+
+        if (recording) {
+            var now = new Date();
+            var currentSecond = now.getSeconds();
+
+            // Only record if the second has changed
+            if (currentSecond % 1 === 0 && lastRecordedSecond !== currentSecond) {
+                lastRecordedSecond = currentSecond;
+
+                var time = getCurrentTime();
+                var second = recordedData.length + 1; // Incremental second counter
+                recordedData.push([time, second, flowRate]);
+            }
+        }
+    } catch (error) {
+        console.error('Error parsing WebSocket message:', error);
+    }
+};
+
+  // Handle WebSocket errors
   ws.onerror = function(error) {
       console.error('WebSocket Error:', error);
   };
 
+  // Handle WebSocket connection open and close
   ws.onopen = function() {
       console.log('WebSocket connection established');
   };
@@ -687,7 +866,7 @@ setInterval(function() {
       console.log('WebSocket connection closed');
   };
 
-  // Fungsi untuk mendapatkan waktu sekarang dalam format 00:00:00
+  // Get current time in hh:mm:ss format
   function getCurrentTime() {
       var now = new Date();
       var hrs = now.getHours();
@@ -697,7 +876,29 @@ setInterval(function() {
       return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }
 
-  // Setup chart
+  // Function to export recorded data as CSV
+ // Function to export recorded data as CSV
+function exportToCSV() {
+    // Filter recordedData to only keep unique 'Second' values
+    const filteredData = recordedData.filter((row, index, self) => {
+        return self.findIndex(r => r[1] === row[1]) === index; // Keep the first occurrence of each 'Second'
+    });
+
+    var csvContent = "Time,Second,FlowRate\n";
+    filteredData.forEach(function(row) {
+        csvContent += row.join(",") + "\n";
+    });
+
+    var encodedUri = encodeURI("data:text/csv;charset=utf-8," + csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "flowRateData.csv");
+    document.body.appendChild(link);
+    link.click();  // Trigger download
+}
+
+
+  // Setup chart for flowRate
   var ctx = document.getElementById('flowRateChart').getContext('2d');
   var flowRateChart = new Chart(ctx, {
       type: 'line',
@@ -715,64 +916,47 @@ setInterval(function() {
       options: {
           scales: {
               x: {
-                  title: {
-                      display: true,
-                      text: 'Time (hh:mm:ss)'
-                  }
+                  title: { display: true, text: 'Time (hh:mm:ss)' }
               },
               y: {
                   beginAtZero: true,
-                  title: {
-                      display: true,
-                      text: 'Flow Rate (L/m)'
-                  }
+                  title: { display: true, text: 'Flow Rate (L/m)' }
               }
           }
       }
   });
 
+  // Update chart every second
   setInterval(function() {
-      var formattedTime = getCurrentTime();  // Dapatkan waktu saat ini dalam format 00:00:00
+      if (recording) {
+          var formattedTime = getCurrentTime();
+          flowRateChart.data.labels.push(formattedTime);  // Add formatted time to chart
+          flowRateChart.data.datasets[0].data.push(flowRate);  // Add flowRate to chart
 
-      flowRateChart.data.labels.push(formattedTime);  // Menambahkan waktu terformat ke label
-      flowRateChart.data.datasets[0].data.push(flowRate);
+          flowRateChart.update();
+      }
+  }, 1000);
 
-      // // Membatasi jumlah titik data pada chart (maksimal 20)
-      // if (flowRateChart.data.labels.length > 20) {
-      //     flowRateChart.data.labels.shift();
-      //     flowRateChart.data.datasets[0].data.shift();
-      // }
+  // Event listeners for start/stop recording
+  document.getElementById('startRecordingBtn').addEventListener('click', function() {
+      recording = true;
+      recordedData = [];  // Reset data when starting recording
+      document.getElementById('startRecordingBtn').disabled = true;
+      document.getElementById('stopRecordingBtn').disabled = false;
+      console.log('Recording started');
+  });
 
-      flowRateChart.update();
-  }, 1000);  // Update setiap 1 detik (1000ms)
+  document.getElementById('stopRecordingBtn').addEventListener('click', function() {
+      recording = false;
+      exportToCSV();  // Export data when stopped
+      document.getElementById('startRecordingBtn').disabled = false;
+      document.getElementById('stopRecordingBtn').disabled = true;
+      console.log('Recording stopped and data exported');
+  });
 </script>
 
 
 
-
-
-<script>
-// Fungsi untuk menghubungkan ke WebSocket dan memperbarui elemen
-(function() {
-    var ws = new WebSocket('ws://localhost:1880/ws/flowrate'); // Ganti URL jika perlu
-    ws.onmessage = function(event) {
-        var data = JSON.parse(event.data);
-        document.getElementById('flowRateDisplay').textContent = 'Flow Rate ' + data.flowRate ;
-    };
-
-    ws.onerror = function(error) {
-        console.error('WebSocket Error: ', error);
-    };
-
-    ws.onopen = function() {
-        console.log('WebSocket connection established');
-    };
-
-    ws.onclose = function() {
-        console.log('WebSocket connection closed');
-    };
-})();
-</script>
 
 <!-- end flow rate -->
  
