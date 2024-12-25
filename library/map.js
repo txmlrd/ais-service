@@ -58,6 +58,7 @@ socket.onmessage = (event) => {
   const popupContent = `
     <strong>Ship Name:</strong> ${safeValue(message.shipname)}<br>
     <strong>MMSI:</strong> ${safeValue(message.mmsi)}<br>
+    <strong>IMMSI:</strong> ${safeValue(message.immsi)}<br>
     <strong>Callsign:</strong> ${safeValue(message.callsign)}<br>
     <strong>IMO:</strong> ${safeValue(message.imo)}<br>
     <strong>Cargo:</strong> ${safeValue(message.cargo)}<br>
@@ -66,7 +67,7 @@ socket.onmessage = (event) => {
     <strong>Draught:</strong> ${safeValue(message.draught)} m<br>
     <strong>Dimensions:</strong> ${safeValue(`${message.dimA}m x ${message.dimB}m`)}<br>
     <strong>Ship Length:</strong> ${safeValue(message.length)} m<br>
-    <strong>Ship Width:</strong> ${safeValue(message.width)} m
+    <strong>Ship Width:</strong> ${safeValue(message.width)} m<br>
   `;
 
   // Mengecek apakah marker dengan MMSI tertentu sudah ada
