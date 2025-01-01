@@ -398,7 +398,7 @@ License: You must have a valid license purchased only from themeforest(the above
           </div>
           <!-- Modal footer -->
           <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-              <!-- <button data-modal-toggle="top-right-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
+              <!-- <button data-modal-toggle="top-right-m525025085odal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
               <button onclick="closeLegendModal();"  type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
           </div>
       </div>
@@ -491,13 +491,31 @@ License: You must have a valid license purchased only from themeforest(the above
           <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
  <input type="file" id="csvFileInput" accept=".csv" onchange="handleCSVUpload(event)" />
  <canvas id="csvFlowRateChart" width="400" height="200"></canvas>
- <div class="p-4">
-  <p><strong>Flow Rate (Display):</strong> <span id="currentFlowRateDisplay">0.00</span> L/m</p>
-  <p><strong>Average Flow Rate per Minute (Display):</strong></p>
-  <ul id="averageFlowRatesDisplayList"></ul> 
-  <p><strong>Volume (Display):</strong> <span id="accumulatedAverageDisplay">0.00</span> Liter</p>
+  <!-- Current Flow Rate Display -->
+  <div>
+    <h3>Current Flow Rate: <span id="currentFlowRateDisplay">0.00</span> L/m</h3>
 </div>
 
+
+    <!-- Average Flow Rate per Minute -->
+    <div>
+      <h3>Average Flow Rate per Minute:</h3>
+      <ul id="averageFlowRatesDisplayList"></ul>
+  </div>
+
+  <!-- Accumulated Volume Display -->
+  <div>
+      <h3>Accumulated Volume:</h3>
+      <ul id="accumulatedVolumeDisplayList"></ul>
+  </div>
+
+  <!-- Carbon Emissions & Conversion Results -->
+  <div>
+      <h3>Carbon Emissions:</h3>
+      <ul id="carbonEmissionsList"></ul>
+      <h3>Conversion Results:</h3>
+      <ul id="conversionResultsList"></ul>
+  </div>
 
             
           </div>
@@ -576,8 +594,8 @@ License: You must have a valid license purchased only from themeforest(the above
 </div>
 <!-- start acumulation script -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
-  // Setup chart for flowRate
   var ctx = document.getElementById('csvFlowRateChart').getContext('2d');
   var csvFlowRateChart = new Chart(ctx, {
       type: 'line',
@@ -604,14 +622,14 @@ License: You must have a valid license purchased only from themeforest(the above
           }
       }
   });
-  
-  // For Display
-  var flowRates = []; // Stores all flow rates from CSV
-  var totalVolume = 0; // Total volume in liters
-  var currentFlowRate = 0.00;
-  var minuteCounter = 0; // To track minutes
-  
-  // Handle CSV file upload
+
+  var flowRates = [];
+  var accumulatedVolume = 0;
+  var minuteCounter = 0;
+  var flowRatePerSecond = [];
+  var averagePerMinute = [];
+  var accumulatedAverage = 0;
+
   function handleCSVUpload(event) {
       var file = event.target.files[0];
       if (file && file.name.endsWith('.csv')) {
@@ -625,68 +643,95 @@ License: You must have a valid license purchased only from themeforest(the above
           alert('Please upload a valid CSV file.');
       }
   }
-  
-  // Parse CSV content and update chart and calculations
+
   function parseCSV(csvContent) {
       var lines = csvContent.split('\n');
       var labels = [];
       var data = [];
-      var minuteData = []; // Stores flow rates for each minute
-  
-      // Skip the header (first row) and parse the rest
+      var minuteData = [];
+
       for (var i = 1; i < lines.length; i++) {
           var row = lines[i].split(',');
-          if (row.length === 3) {  // Ensure the row has 3 columns (Time, Second, FlowRate)
+          if (row.length === 3) {
               var time = row[0].trim();
               var flowRate = parseFloat(row[2].trim());
               
               if (!isNaN(flowRate)) {
                   labels.push(time);
                   data.push(flowRate);
-                  flowRates.push(flowRate);  // Add flow rate to array
-                  totalVolume += flowRate;   // Update total volume in liters
+                  flowRates.push(flowRate);
                   
-                  // Group data by minute
-                  if (minuteData[minuteCounter] === undefined) {
-                      minuteData[minuteCounter] = [];
+                  // Track flow rate per second for the current minute
+                  flowRatePerSecond.push(flowRate);
+                  
+                  // If we have 60 data points (1 minute), calculate averages
+                  if (flowRatePerSecond.length === 60) {
+                      calculateAverages();
                   }
-                  minuteData[minuteCounter].push(flowRate);
               }
           }
       }
-  
+
       // Update chart with parsed data
       csvFlowRateChart.data.labels = labels;
       csvFlowRateChart.data.datasets[0].data = data;
       csvFlowRateChart.update();
-  
-      // Update display for flow rate and volume
+
+      // Update current flow rate display
       currentFlowRate = flowRates[flowRates.length - 1];
       document.getElementById('currentFlowRateDisplay').textContent = currentFlowRate.toFixed(2);
-  
-      // Display average flow rate per minute
-      displayAverageFlowRatePerMinute(minuteData);
-  
-      // Display accumulated volume
-      document.getElementById('accumulatedAverageDisplay').textContent = totalVolume.toFixed(2);
   }
-  
-  // Calculate and display average flow rate per minute
-  function displayAverageFlowRatePerMinute(minuteData) {
-      // Clear previous list
-      var averageFlowRatesList = document.getElementById('averageFlowRatesDisplayList');
-      averageFlowRatesList.innerHTML = '';
-  
-      // Calculate and display average for each minute
-      minuteData.forEach(function(minuteFlowRates, index) {
-          var averageFlowRate = minuteFlowRates.reduce(function(a, b) { return a + b; }, 0) / minuteFlowRates.length;
-          var listItem = document.createElement('li');
-          listItem.textContent = `Minute ${index + 1}: ${averageFlowRate.toFixed(2)} L/m`;
-          averageFlowRatesList.appendChild(listItem);
-      });
+
+  function calculateAverages() {
+      var sum = flowRatePerSecond.reduce((a, b) => a + b, 0);
+      var minuteAverage = sum; // No division by 60, as per your approach
+      averagePerMinute.push(minuteAverage);
+
+      accumulatedAverage += minuteAverage;
+
+      // Calculate volume and carbon emissions
+      var volume = minuteAverage;
+      var carbonEmission = calculateCarbonEmission(volume);
+      var conversionResult = calculateConversion(carbonEmission);
+
+      // Update displays
+      updateDisplays(minuteAverage, carbonEmission, conversionResult);
+
+      // Reset flowRate per second array for the next minute
+      flowRatePerSecond = [];
   }
-  
-  </script>
+
+  function calculateCarbonEmission(volume) {
+      return volume * 0.89;  // Calculate emission in grams
+  }
+
+  function calculateConversion(carbonEmission) {
+      return (carbonEmission * 3.151) / (192 * 2);  // Conversion to g-CO2/ton.Nm
+  }
+
+  function updateDisplays(minuteAverage, carbonEmission, conversionResult) {
+      // Display carbon emission
+      var carbonEmissionText = `Minute ${averagePerMinute.length}: ${carbonEmission.toFixed(2)} grams`;
+      var listItem = document.createElement("li");
+      listItem.textContent = carbonEmissionText;
+      document.getElementById('carbonEmissionsList').appendChild(listItem);
+
+      // Display conversion result
+      var conversionText = `Minute ${averagePerMinute.length}: ${conversionResult.toFixed(2)} g-CO2/ton.Nm`;
+      var listItem3 = document.createElement("li");
+      listItem3.textContent = conversionText;
+      document.getElementById('conversionResultsList').appendChild(listItem3);
+
+      // Display average flow rate
+      var minuteText = `Minute ${averagePerMinute.length}: ${minuteAverage.toFixed(2)} L/m`;
+      var listItem2 = document.createElement("li");
+      listItem2.textContent = minuteText;
+      document.getElementById('averageFlowRatesList').appendChild(listItem2);
+
+      // Display accumulated average
+      document.getElementById('accumulatedAverage').textContent = accumulatedAverage.toFixed(2);
+  }
+</script>
   
 <script>
   // Variables to store flowRate data from WebSocket
@@ -743,7 +788,8 @@ License: You must have a valid license purchased only from themeforest(the above
       // Always calculate even if the flow rate is 0
       if (flowRatePerSecond.length === 60) {
           var sum = flowRatePerSecond.reduce((a, b) => a + b, 0);
-          var minuteAverage = sum / 60;  // Calculate minute average
+          var minuteAverage = sum  // Calculate minute average
+          // var minuteAverage = sum / 60; 
           averagePerMinute.push(minuteAverage);
 
           accumulatedAverage += minuteAverage;
