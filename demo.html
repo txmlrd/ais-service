@@ -191,14 +191,14 @@ License: You must have a valid license purchased only from themeforest(the above
                     <img src="assets/flow.svg" alt="Flow" >
                   </a>
                 </li>
-                <li>
+                <!-- <li>
                   <a title="Carbon Intensity Indicator" href="javascript:opencarbonModal();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <img src="assets/emisi.svg" alt="Emisi" >
                   </a>
-                </li>
+                </li> -->
                 <li>
                   <a title="Display Data" href="javascript:opendisplayDataModal();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <img src="assets/flow.svg" alt="Flow" >
+                    <img src="assets/monitoring.svg" alt="Flow" >
                   </a>
                 </li>
              </ul>
@@ -423,32 +423,8 @@ License: You must have a valid license purchased only from themeforest(the above
           </div>
           <!-- Modal body -->
           <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
-            
-              <!-- <a href="javascript:void();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-5 h-auto " src="assets/kapalsvg/cruise.svg" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" >Passeger, Cruise, Troop, Crew </span>
-              </a>
-              <a href="javascript:void();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-5 h-auto " src="assets/kapalsvg/cargo.svg" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" >Tanker, Barge, Crude, LNG, LPG</span>
-              </a>
-              <a href="javascript:void();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-5 h-auto " src="assets/kapalsvg/support.svg" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" >Utility, Tug, Pilot, Tow, Support, Supply </span>
-              </a>
-              <a href="javascript:void();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-5 h-auto " src="assets/kapalsvg/tanker.svg" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" > Cargo, (Bulk) Carrier, Container </span>
-              </a>
-              <a href="javascript:void();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-5 h-auto " src="assets/kapalsvg/special.svg" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" >Special Type: Well Stimulation, Pipe Layer, etc</span>
-              </a>
-              <a href="javascript:void();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-5 h-auto " src="assets/kapalsvg/unknown.svg" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" >Unknown</span>
-              </a> -->
-              <div>
+    
+              <!-- <div>
                 <h3>Fuel Consumption :</h3>
                 <ul id="carbonEmissionsList"></ul>
             </div>
@@ -456,7 +432,7 @@ License: You must have a valid license purchased only from themeforest(the above
             <div>
                 <h3>CII Attained :</h3>
                 <ul id="conversionResultsList"></ul>
-            </div>
+            </div> -->
             
 
           </div>
@@ -491,32 +467,20 @@ License: You must have a valid license purchased only from themeforest(the above
           <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
  <input type="file" id="csvFileInput" accept=".csv" onchange="handleCSVUpload(event)" />
  <canvas id="csvFlowRateChart" width="400" height="200"></canvas>
-  <!-- Current Flow Rate Display -->
-  <div>
-    <h3>Current Flow Rate: <span id="currentFlowRateDisplay">0.00</span> L/m</h3>
+ <p><strong>Average Flow Rate per Minute:</strong></p>
+ <ul id="averageFlowRatesList"></ul> 
+ <p><strong>Volume</strong> <span id="accumulatedAverage">0.00</span> Liter</p>
+ <div>
+  <h3>Fuel Consumption :</h3>
+  <ul id="carbonEmissionsList"></ul>
+  <p><strong>Total Fuel Consumption :</strong> <span id="totalFuelConsumption">0.00</span> grams</p>
 </div>
 
-
-    <!-- Average Flow Rate per Minute -->
-    <div>
-      <h3>Average Flow Rate per Minute:</h3>
-      <ul id="averageFlowRatesDisplayList"></ul>
-  </div>
-
-  <!-- Accumulated Volume Display -->
-  <div>
-      <h3>Accumulated Volume:</h3>
-      <ul id="accumulatedVolumeDisplayList"></ul>
-  </div>
-
-  <!-- Carbon Emissions & Conversion Results -->
-  <div>
-      <h3>Carbon Emissions:</h3>
-      <ul id="carbonEmissionsList"></ul>
-      <h3>Conversion Results:</h3>
-      <ul id="conversionResultsList"></ul>
-  </div>
-
+<div>
+  <h3>CII Attained :</h3>
+  <ul id="conversionResultsList"></ul>
+  <p><strong>Total CII Attained :</strong> <span id="totalCiiAttained">0.00</span> g-CO2/ton.Nm</p>
+</div>
             
           </div>
           <!-- Modal footer -->
@@ -555,14 +519,14 @@ License: You must have a valid license purchased only from themeforest(the above
               Stop Recording
             </button>
             
-            <div class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+            <!-- <div class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
                 <circle cx="5" cy="5" r="5" fill="blue" />
             </svg>
             
               <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium">Flow Rate</span>
               <div id="flowRateDisplay" class="flex">Flow Rate 0.00 L/m </div>
-          </div>
+          </div> -->
           <div class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
               <circle cx="5" cy="5" r="5" fill="blue" />
@@ -578,11 +542,7 @@ License: You must have a valid license purchased only from themeforest(the above
             </div>
             <div class="p-4">
               <p><strong>Flow Rate:</strong> <span id="currentFlowRate">0.00</span> L/m</p>
-    <p><strong>Average Flow Rate per Minute:</strong></p>
-    <ul id="averageFlowRatesList"></ul> 
-    <p><strong>Volume</strong> <span id="accumulatedAverage">0.00</span> Liter</p>
             </div>
-           
             
           </div>
           <!-- Modal footer -->
@@ -732,13 +692,13 @@ License: You must have a valid license purchased only from themeforest(the above
       document.getElementById('accumulatedAverage').textContent = accumulatedAverage.toFixed(2);
   }
 </script>
-  
 <script>
   // Variables to store flowRate data from WebSocket
   var flowRate = 0;
   var flowRatePerSecond = [];
-  var averagePerMinute = [];
   var accumulatedAverage = 0;
+  var totalFuelConsumption = 0;
+  var totalCiiAttained = 0;
 
   // WebSocket to get flowRate data (dummy WebSocket simulation for now)
   var ws = new WebSocket('ws://167.71.197.48:1880/ws/flowrate');
@@ -758,19 +718,12 @@ License: You must have a valid license purchased only from themeforest(the above
       }
   };
 
-  // Simulate flowRate data with dummy values (for testing purposes)
-  // function generateDummyFlowRate() {
-  //     return (Math.random() * 10).toFixed(2);  // Generate a random flowRate between 0 and 10 L/m
-  // }
+  // Track minute count
+  var currentMinute = 0;
+  var isMinuteCalculated = false;  // Flag to track if the minute data has been calculated
 
   // Dummy WebSocket message handler (for testing purposes)
-  // Simulate receiving flowRate data every second if WebSocket isn't available
   setInterval(function() {
-      // if (!flowRate) { // If WebSocket hasn't received data yet, use dummy data
-      //     flowRate = parseFloat(generateDummyFlowRate());  // Get dummy flowRate
-      //     console.log('Flow rate updated (dummy):', flowRate);
-      // }
-
       // Update flow rate display
       document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
 
@@ -778,21 +731,17 @@ License: You must have a valid license purchased only from themeforest(the above
       flowRatePerSecond.push(flowRate);
 
       // Calculate average every 60 seconds
-      if (flowRatePerSecond.length === 60) {
+      if (flowRatePerSecond.length === 60 && !isMinuteCalculated) {
           calculateAverages();
+          isMinuteCalculated = true;  // Set flag to true after calculation
       }
   }, 1000);  // Simulate data every second
 
   // Function to calculate average flowRate per minute and emissions
   function calculateAverages() {
-      // Always calculate even if the flow rate is 0
-      if (flowRatePerSecond.length === 60) {
+      if (flowRatePerSecond.length === 60 && !isMinuteCalculated) {
           var sum = flowRatePerSecond.reduce((a, b) => a + b, 0);
-          var minuteAverage = sum  // Calculate minute average
-          // var minuteAverage = sum / 60; 
-          averagePerMinute.push(minuteAverage);
-
-          accumulatedAverage += minuteAverage;
+          var minuteAverage = sum / 60;  // Calculate minute average
 
           // Calculate volume and carbon emissions
           var volume = minuteAverage;
@@ -800,41 +749,54 @@ License: You must have a valid license purchased only from themeforest(the above
           var conversionResult = calculateConversion(carbonEmission);
 
           // Update carbon emissions display
-          var carbonEmissionText = `Minute ${averagePerMinute.length}: ${carbonEmission.toFixed(2)} grams`;
+          var carbonEmissionText = `Minute ${currentMinute + 1}: ${carbonEmission.toFixed(2)} grams`;
           var listItem = document.createElement("li");
           listItem.textContent = carbonEmissionText;
           document.getElementById('carbonEmissionsList').appendChild(listItem);
 
           // Update conversion result display
-          var conversionText = `Minute ${averagePerMinute.length}: ${conversionResult.toFixed(2)} g-CO2/ton.Nm`;
+          var conversionText = `Minute ${currentMinute + 1}: ${conversionResult.toFixed(10)} g-CO2/ton.Nm`;
           var listItem3 = document.createElement("li");
           listItem3.textContent = conversionText;
           document.getElementById('conversionResultsList').appendChild(listItem3);
 
           // Update average flow rates display
-          var minuteText = `Minute ${averagePerMinute.length}: ${minuteAverage.toFixed(2)} L/m`;
+          var minuteText = `Minute ${currentMinute + 1}: ${minuteAverage.toFixed(2)} L/m`;
           var listItem2 = document.createElement("li");
           listItem2.textContent = minuteText;
           document.getElementById('averageFlowRatesList').appendChild(listItem2);
 
           // Display accumulated average
+          accumulatedAverage += minuteAverage;
           document.getElementById('accumulatedAverage').textContent = accumulatedAverage.toFixed(2);
+
+          totalFuelConsumption += carbonEmission;
+          document.getElementById('totalFuelConsumption').textContent = totalFuelConsumption.toFixed(2);
+
+          totalCiiAttained += conversionResult;
+          document.getElementById('totalCiiAttained').textContent = totalCiiAttained.toFixed(2);
+          // Increment minute counter
+          currentMinute++;
 
           // Reset flowRate per second array for the next minute
           flowRatePerSecond = [];
+
+          // Reset the flag for next minute calculation
+          isMinuteCalculated = false;  
       }
   }
 
   // Function to calculate carbon emission from volume (liter)
   function calculateCarbonEmission(volume) {
-      return volume * 0.89;  // Calculate emission in grams
+      return volume * 1000;  // Calculate emission in grams
   }
   
   // Function for emission conversion
   function calculateConversion(carbonEmission) {
-      return (carbonEmission * 3.151) / (192 * 2);
+      return (carbonEmission * 3.151040) / (192 * 2.5);
   }
 </script>
+
 
 <script>
   // Modal control functions
