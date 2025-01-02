@@ -702,100 +702,90 @@ License: You must have a valid license purchased only from themeforest(the above
 
   // WebSocket to get flowRate data (dummy WebSocket simulation for now)
   var ws = new WebSocket('ws://167.71.197.48:1880/ws/flowrate');
-  
-  ws.onmessage = function(event) {
-      console.log('Received WebSocket data:', event.data);
-  
-      try {
-          var data = JSON.parse(event.data);
-          flowRate = parseFloat(data.flowRate.replace(/[^0-9.]/g, ''));  // Ensure only numbers are used
-          console.log('Flow rate updated:', flowRate);
-  
-          // Update flow rate display
-          document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
-      } catch (error) {
-          console.error('Error parsing WebSocket message:', error);
+
+  ws.onmessage = function (event) {
+    try {
+      var data = JSON.parse(event.data);
+      flowRate = parseFloat(data.flowRate.replace(/[^0-9.]/g, '')) || 0; // Ensure valid flow rate or 0
+
+      // Update flow rate display
+      document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
+
+      // If valid flowRate is received, allow calculations
+      if (flowRate > 0 && flowRatePerSecond.length === 0) {
+        isMinuteCalculated = false; // Reset flag for new minute calculations
       }
+    } catch (error) {
+      console.error('Error parsing WebSocket message:', error);
+    }
   };
 
   // Track minute count
   var currentMinute = 0;
-  var isMinuteCalculated = false;  // Flag to track if the minute data has been calculated
+  var isMinuteCalculated = false; // Prevent recalculations for the same data
 
-  // Dummy WebSocket message handler (for testing purposes)
-  setInterval(function() {
-      // Update flow rate display
-      document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
-
-      // Record data for calculation
+  // Interval to process data every second
+  setInterval(function () {
+    if (flowRate > 0 && !isMinuteCalculated) {
+      // Push valid flow rate to the array
       flowRatePerSecond.push(flowRate);
 
       // Calculate average every 60 seconds
-      if (flowRatePerSecond.length === 60 && !isMinuteCalculated) {
-          calculateAverages();
-          isMinuteCalculated = true;  // Set flag to true after calculation
+      if (flowRatePerSecond.length === 60) {
+        calculateAverages();
+        isMinuteCalculated = true; // Prevent further calculations for this minute
       }
-  }, 1000);  // Simulate data every second
+    }
+  }, 1000);
 
   // Function to calculate average flowRate per minute and emissions
   function calculateAverages() {
-      if (flowRatePerSecond.length === 60 && !isMinuteCalculated) {
-          var sum = flowRatePerSecond.reduce((a, b) => a + b, 0);
-          var minuteAverage = sum / 60;  // Calculate minute average
+    var sum = flowRatePerSecond.reduce((a, b) => a + b, 0);
+    var minuteAverage = sum / 60; // Calculate minute average
 
-          // Calculate volume and carbon emissions
-          var volume = minuteAverage;
-          var carbonEmission = calculateCarbonEmission(volume);
-          var conversionResult = calculateConversion(carbonEmission);
+    // Calculate volume and carbon emissions
+    var volume = minuteAverage;
+    var carbonEmission = calculateCarbonEmission(volume);
+    var conversionResult = calculateConversion(carbonEmission);
 
-          // Update carbon emissions display
-          var carbonEmissionText = `Minute ${currentMinute + 1}: ${carbonEmission.toFixed(2)} grams`;
-          var listItem = document.createElement("li");
-          listItem.textContent = carbonEmissionText;
-          document.getElementById('carbonEmissionsList').appendChild(listItem);
+    // Update displays
+    appendToList('carbonEmissionsList', `Minute ${currentMinute + 1}: ${carbonEmission.toFixed(2)} grams`);
+    appendToList('conversionResultsList', `Minute ${currentMinute + 1}: ${conversionResult.toFixed(10)} g-CO2/ton.Nm`);
+    appendToList('averageFlowRatesList', `Minute ${currentMinute + 1}: ${minuteAverage.toFixed(2)} L/m`);
 
-          // Update conversion result display
-          var conversionText = `Minute ${currentMinute + 1}: ${conversionResult.toFixed(10)} g-CO2/ton.Nm`;
-          var listItem3 = document.createElement("li");
-          listItem3.textContent = conversionText;
-          document.getElementById('conversionResultsList').appendChild(listItem3);
+    // Update accumulated averages
+    accumulatedAverage += minuteAverage;
+    document.getElementById('accumulatedAverage').textContent = accumulatedAverage.toFixed(2);
 
-          // Update average flow rates display
-          var minuteText = `Minute ${currentMinute + 1}: ${minuteAverage.toFixed(2)} L/m`;
-          var listItem2 = document.createElement("li");
-          listItem2.textContent = minuteText;
-          document.getElementById('averageFlowRatesList').appendChild(listItem2);
+    totalFuelConsumption += carbonEmission;
+    document.getElementById('totalFuelConsumption').textContent = totalFuelConsumption.toFixed(2);
 
-          // Display accumulated average
-          accumulatedAverage += minuteAverage;
-          document.getElementById('accumulatedAverage').textContent = accumulatedAverage.toFixed(2);
+    totalCiiAttained += conversionResult;
+    document.getElementById('totalCiiAttained').textContent = totalCiiAttained.toFixed(2);
 
-          totalFuelConsumption += carbonEmission;
-          document.getElementById('totalFuelConsumption').textContent = totalFuelConsumption.toFixed(2);
-
-          totalCiiAttained += conversionResult;
-          document.getElementById('totalCiiAttained').textContent = totalCiiAttained.toFixed(2);
-          // Increment minute counter
-          currentMinute++;
-
-          // Reset flowRate per second array for the next minute
-          flowRatePerSecond = [];
-
-          // Reset the flag for next minute calculation
-          isMinuteCalculated = false;  
-      }
+    // Increment minute counter and reset
+    currentMinute++;
+    flowRatePerSecond = [];
   }
 
   // Function to calculate carbon emission from volume (liter)
   function calculateCarbonEmission(volume) {
-      return volume * 1000;  // Calculate emission in grams
+    return volume * 1000; // Calculate emission in grams
   }
-  
+
   // Function for emission conversion
   function calculateConversion(carbonEmission) {
-      return (carbonEmission * 3.151040) / (192 * 2.5);
+    return (carbonEmission * 3.151040) / (192 * 2.5);
+  }
+
+  // Helper function to append text to a list
+  function appendToList(listId, text) {
+    var listItem = document.createElement('li');
+    listItem.textContent = text;
+    document.getElementById(listId).appendChild(listItem);
   }
 </script>
+
 
 
 <script>
