@@ -554,23 +554,26 @@ License: You must have a valid license purchased only from themeforest(the above
 </div>
 <!-- start acumulation script -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
 
 <script>
   var ctx = document.getElementById('csvFlowRateChart').getContext('2d');
   var csvFlowRateChart = new Chart(ctx, {
       type: 'line',
       data: {
-          labels: [],
+          labels: [], // Label waktu
           datasets: [{
               label: 'Flow Rate (L/m)',
-              data: [],
+              data: [], // Data flow rate
               borderColor: 'rgba(75, 192, 192, 1)',
               borderWidth: 2,
               fill: false,
-              tension: 0.1
+              tension: 0.1,
+              pointRadius: 0 // Hilangkan titik di garis
           }]
       },
       options: {
+          responsive: true,
           scales: {
               x: {
                   title: { display: true, text: 'Time (hh:mm:ss)' }
@@ -578,6 +581,23 @@ License: You must have a valid license purchased only from themeforest(the above
               y: {
                   beginAtZero: true,
                   title: { display: true, text: 'Flow Rate (L/m)' }
+              }
+          },
+          plugins: {
+              zoom: {
+                  zoom: {
+                      wheel: {
+                          enabled: true // Zoom dengan scroll
+                      },
+                      pinch: {
+                          enabled: true // Zoom dengan pinch (untuk touch devices)
+                      },
+                      mode: 'x' // Zoom hanya pada sumbu x (waktu)
+                  },
+                  pan: {
+                      enabled: true, // Pan dengan klik dan drag
+                      mode: 'x' // Pan hanya pada sumbu x (waktu)
+                  }
               }
           }
       }
