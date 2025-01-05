@@ -43,8 +43,8 @@ var open_street_map = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y
 }).addTo(map);
 
 // WebSocket untuk menerima data secara real-time
-// const socket = new WebSocket("ws://167.71.197.48:8080");
-const socket = new WebSocket("ws://localhost:8080");
+const socket = new WebSocket("ws://167.71.197.48:8080");
+// const socket = new WebSocket("ws://localhost:8080");
 
 // Menyimpan data kapal dari file JSON
 let shipData = {}; // Tempat untuk menyimpan data kapal
@@ -88,7 +88,7 @@ function getShipIcon(category) {
 }
 
 // Fungsi untuk menampilkan popup dengan data kapal
-function createPopupContent(message, ship, timestamp) {
+function createPopupContent(message, ship, formattedDate) {
   return `
     <strong>Ship Name:</strong> ${ship.NAME || "-"}<br>
     <strong>Negara :</strong> ${ship.FLAGNAME || "-"}<br>
@@ -98,7 +98,7 @@ function createPopupContent(message, ship, timestamp) {
     <strong>Course (COG):</strong> ${message.cog || "0"}°<br>
     <strong>Latitude:</strong> ${message.lat || "-"}<br>
     <strong>Longitude:</strong> ${message.lon || "-"}<br>
-    <strong>Timestamp :</strong> ${timestamp || "-"}<br>
+    <strong>Timestamp :</strong> ${formattedDate || "-"}<br>
     <strong>CII :</strong> ${message.cii || "-"}<br>
   `;
 }
@@ -108,6 +108,18 @@ socket.onmessage = (event) => {
   const data = JSON.parse(event.data);
   const message = data.message.data;
   const timestamp = data.timestamp;
+  const date = new Date(timestamp);
+
+  // Extract components
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+  const year = String(date.getFullYear()).slice(-2);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const seconds = String(date.getSeconds()).padStart(2, "0");
+
+  // Format into desired string
+  const formattedDate = `${day}:${month}:${year}, ${hours}:${minutes}:${seconds}`;
   const ship = shipData[message.mmsi];
 
   if (ship) {
@@ -126,7 +138,7 @@ socket.onmessage = (event) => {
         rotationOrigin: "center center",
       })
         .addTo(map)
-        .bindPopup(createPopupContent(message, ship, timestamp))
+        .bindPopup(createPopupContent(message, ship, formattedDate))
         .on("popupopen", () => {
           openPopupMarker = markers[message.mmsi];
         })
@@ -144,7 +156,7 @@ socket.onmessage = (event) => {
 
       // Update konten popup jika popup terbuka untuk marker ini
       if (openPopupMarker === markers[message.mmsi]) {
-        const newPopupContent = createPopupContent(message, ship, timestamp);
+        const newPopupContent = createPopupContent(message, ship, formattedDate);
         openPopupMarker.getPopup().setContent(newPopupContent);
       }
     }
