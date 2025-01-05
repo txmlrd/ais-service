@@ -786,8 +786,8 @@ License: You must have a valid license purchased only from themeforest(the above
   var totalCiiAttained = 0;
 
   // WebSocket to get flowRate data (dummy WebSocket simulation for now)
-  var ws = new WebSocket('ws://167.71.197.48:1880/ws/flowrate');
-
+  // var ws = new WebSocket('ws://167.71.197.48:1880/ws/flowrate');
+  var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
   ws.onmessage = function (event) {
     try {
       var data = JSON.parse(event.data);
@@ -913,7 +913,8 @@ License: You must have a valid license purchased only from themeforest(the above
   var recording = false;  // To track if recording is active
   var recordedData = [];  // Store recorded data
   var flowRate = 0;  // Initialize flowRate
-  var ws = new WebSocket('ws://167.71.197.48:1880/ws/flowrate');
+  // var ws = new WebSocket('ws://167.71.197.48:1880/ws/flowrate');
+  var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
   var lastRecordedSecond = null; // Track the last recorded second
 
   ws.onmessage = function(event) {

@@ -43,8 +43,8 @@ var open_street_map = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y
 }).addTo(map);
 
 // WebSocket untuk menerima data secara real-time
-// const socket = new WebSocket("ws://167.71.197.48:8080");
-const socket = new WebSocket("ws://localhost:8080");
+const socket = new WebSocket("ws://167.71.197.48:8080");
+// const socket = new WebSocket("ws://localhost:8080");
 
 // Menyimpan data kapal dari file JSON
 let shipData = {}; // Tempat untuk menyimpan data kapal
