@@ -796,10 +796,7 @@ License: You must have a valid license purchased only from themeforest(the above
       // Update flow rate display
       document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
 
-      // If valid flowRate is received, allow calculations
-      if (flowRate > 0 && flowRatePerSecond.length === 0) {
-        isMinuteCalculated = false; // Reset flag for new minute calculations
-      }
+   
     } catch (error) {
       console.error('Error parsing WebSocket message:', error);
     }
@@ -811,17 +808,24 @@ License: You must have a valid license purchased only from themeforest(the above
 
   // Interval to process data every second
   setInterval(function () {
-    if (flowRate > 0 && !isMinuteCalculated) {
-      // Push valid flow rate to the array
-      flowRatePerSecond.push(flowRate);
+  if (flowRate > 0) {
+    // Push flow rate yang valid ke array
+    flowRatePerSecond.push(flowRate);
 
-      // Calculate average every 60 seconds
-      if (flowRatePerSecond.length === 60) {
-        calculateAverages();
-        isMinuteCalculated = true; // Prevent further calculations for this minute
-      }
+    // Hitung rata-rata setiap 60 detik
+    if (flowRatePerSecond.length === 60) {
+      calculateAverages();
+      isMinuteCalculated = true; // Hindari perhitungan ulang untuk menit ini
     }
-  }, 1000);
+  }
+
+  // Reset flag setiap menit baru
+  if (flowRatePerSecond.length === 60) {
+    // Increment menit dan reset data flowRatePerSecond untuk menit berikutnya
+    flowRatePerSecond = [];
+    isMinuteCalculated = false; // Reset flag untuk perhitungan menit baru
+  }
+}, 1000);
 
   // Function to calculate average flowRate per minute and emissions
   function calculateAverages() {
