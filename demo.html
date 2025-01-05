@@ -778,101 +778,95 @@ License: You must have a valid license purchased only from themeforest(the above
   }
 </script>
 <script>
-  // Variables to store flowRate data from WebSocket
-  var flowRate = 0;
-  var flowRatePerSecond = [];
-  var accumulatedAverage = 0;
-  var totalFuelConsumption = 0;
-  var totalCiiAttained = 0;
+// Variables to store flowRate data from WebSocket
+var flowRate = 0;
+var flowRatePerSecond = [];
+var accumulatedAverage = 0;
+var totalFuelConsumption = 0;
+var totalCiiAttained = 0;
 
-  // WebSocket to get flowRate data (dummy WebSocket simulation for now)
-  var ws = new WebSocket('ws://167.71.197.48:1880/ws/flowrate');
-  // var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
-  ws.onmessage = function (event) {
-    try {
-      var data = JSON.parse(event.data);
-      flowRate = parseFloat(data.flowRate.replace(/[^0-9.]/g, '')) || 0; // Ensure valid flow rate or 0
+// WebSocket to get flowRate data
+var ws = new WebSocket('ws://167.71.197.48:1880/ws/flowrate');
+// var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
+ws.onmessage = function (event) {
+  try {
+    var data = JSON.parse(event.data);
+    flowRate = parseFloat(data.flowRate.replace(/[^0-9.]/g, '')) || 0; // Ensure valid flow rate or 0
 
-      // Update flow rate display
-      document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
+    // Update flow rate display
+    document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
+  } catch (error) {
+    console.error('Error parsing WebSocket message:', error);
+  }
+};
 
-   
-    } catch (error) {
-      console.error('Error parsing WebSocket message:', error);
-    }
-  };
+// Track minute count
+var currentMinute = 0;
+var isMinuteCalculated = false; // Prevent recalculations for the same data
 
-  // Track minute count
-  var currentMinute = 0;
-  var isMinuteCalculated = false; // Prevent recalculations for the same data
-
-  // Interval to process data every second
-  setInterval(function () {
-  if (flowRate > 0) {
-    // Push flow rate yang valid ke array
+// Interval to process data every second
+setInterval(function () {
+  if (flowRate > 0 && !isMinuteCalculated) {
+    // Push valid flow rate to the array
     flowRatePerSecond.push(flowRate);
 
-    // Hitung rata-rata setiap 60 detik
+    // Calculate average every 60 seconds
     if (flowRatePerSecond.length === 60) {
       calculateAverages();
-      isMinuteCalculated = true; // Hindari perhitungan ulang untuk menit ini
+      isMinuteCalculated = true; // Prevent further calculations for this minute
     }
   }
 
-  // Reset flag setiap menit baru
-  if (flowRatePerSecond.length === 60) {
-    // Increment menit dan reset data flowRatePerSecond untuk menit berikutnya
-    flowRatePerSecond = [];
-    isMinuteCalculated = false; // Reset flag untuk perhitungan menit baru
-  }
 }, 1000);
 
-  // Function to calculate average flowRate per minute and emissions
-  function calculateAverages() {
-    var sum = flowRatePerSecond.reduce((a, b) => a + b, 0);
-    var minuteAverage = sum / 60; // Calculate minute average
+// Function to calculate average flowRate per minute and emissions
+function calculateAverages() {
+  var sum = flowRatePerSecond.reduce((a, b) => a + b, 0);
+  var minuteAverage = sum / 60; // Calculate minute average
 
-    // Calculate volume and carbon emissions
-    var volume = minuteAverage;
-    var carbonEmission = calculateCarbonEmission(volume);
-    var conversionResult = calculateConversion(carbonEmission);
+  // Calculate volume and carbon emissions
+  var volume = minuteAverage;
+  var carbonEmission = calculateCarbonEmission(volume);
+  var conversionResult = calculateConversion(carbonEmission);
 
-    // Update displays
-    appendToList('carbonEmissionsList', `Minute ${currentMinute + 1}: ${carbonEmission.toFixed(2)} grams`);
-    appendToList('conversionResultsList', `Minute ${currentMinute + 1}: ${conversionResult.toFixed(10)} g-CO2/ton.Nm`);
-    appendToList('averageFlowRatesList', `Minute ${currentMinute + 1}: ${minuteAverage.toFixed(2)} L/m`);
+  // Update displays
+  appendToList('carbonEmissionsList', `Minute ${currentMinute + 1}: ${carbonEmission.toFixed(2)} grams`);
+  appendToList('conversionResultsList', `Minute ${currentMinute + 1}: ${conversionResult.toFixed(10)} g-CO2/ton.Nm`);
+  appendToList('averageFlowRatesList', `Minute ${currentMinute + 1}: ${minuteAverage.toFixed(2)} L/m`);
 
-    // Update accumulated averages
-    accumulatedAverage += minuteAverage;
-    document.getElementById('accumulatedAverage').textContent = accumulatedAverage.toFixed(2);
+  // Update accumulated averages
+  accumulatedAverage += minuteAverage;
+  document.getElementById('accumulatedAverage').textContent = accumulatedAverage.toFixed(2);
 
-    totalFuelConsumption += carbonEmission;
-    document.getElementById('totalFuelConsumption').textContent = totalFuelConsumption.toFixed(2);
+  totalFuelConsumption += carbonEmission;
+  document.getElementById('totalFuelConsumption').textContent = totalFuelConsumption.toFixed(2);
 
-    totalCiiAttained += conversionResult;
-    document.getElementById('totalCiiAttained').textContent = totalCiiAttained.toFixed(2);
+  totalCiiAttained += conversionResult;
+  document.getElementById('totalCiiAttained').textContent = totalCiiAttained.toFixed(2);
 
-    // Increment minute counter and reset
-    currentMinute++;
-    flowRatePerSecond = [];
-  }
+  // Increment minute counter and reset
+  currentMinute++;
+  flowRatePerSecond = []; // Reset data for the next minute
+  isMinuteCalculated = false; // Allow for calculations in the next minute
+}
 
-  // Function to calculate carbon emission from volume (liter)
-  function calculateCarbonEmission(volume) {
-    return volume * 1000; // Calculate emission in grams
-  }
+// Function to calculate carbon emission from volume (liter)
+function calculateCarbonEmission(volume) {
+  return volume * 1000; // Calculate emission in grams
+}
 
-  // Function for emission conversion
-  function calculateConversion(carbonEmission) {
-    return (carbonEmission * 3.151040) / (192 * 2.5);
-  }
+// Function for emission conversion
+function calculateConversion(carbonEmission) {
+  return (carbonEmission * 3.151040) / (192 * 2.5);
+}
 
-  // Helper function to append text to a list
-  function appendToList(listId, text) {
-    var listItem = document.createElement('li');
-    listItem.textContent = text;
-    document.getElementById(listId).appendChild(listItem);
-  }
+// Helper function to append text to a list
+function appendToList(listId, text) {
+  var listItem = document.createElement('li');
+  listItem.textContent = text;
+  document.getElementById(listId).appendChild(listItem);
+}
+
 </script>
 
 
