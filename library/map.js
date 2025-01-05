@@ -43,7 +43,8 @@ var open_street_map = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y
 }).addTo(map);
 
 // WebSocket untuk menerima data secara real-time
-const socket = new WebSocket("ws://167.71.197.48:8080");
+// const socket = new WebSocket("ws://167.71.197.48:8080");
+const socket = new WebSocket("ws://localhost:8080");
 
 // Menyimpan data kapal dari file JSON
 let shipData = {}; // Tempat untuk menyimpan data kapal
@@ -87,7 +88,7 @@ function getShipIcon(category) {
 }
 
 // Fungsi untuk menampilkan popup dengan data kapal
-function createPopupContent(message, ship) {
+function createPopupContent(message, ship, timestamp) {
   return `
     <strong>Ship Name:</strong> ${ship.NAME || "-"}<br>
     <strong>Negara :</strong> ${ship.FLAGNAME || "-"}<br>
@@ -97,6 +98,7 @@ function createPopupContent(message, ship) {
     <strong>Course (COG):</strong> ${message.cog || "0"}°<br>
     <strong>Latitude:</strong> ${message.lat || "-"}<br>
     <strong>Longitude:</strong> ${message.lon || "-"}<br>
+    <strong>Timestamp :</strong> ${timestamp || "-"}<br>
     <strong>CII :</strong> ${message.cii || "-"}<br>
   `;
 }
@@ -105,40 +107,49 @@ function createPopupContent(message, ship) {
 socket.onmessage = (event) => {
   const data = JSON.parse(event.data);
   const message = data.message.data;
-
-  // Cari data kapal berdasarkan MMSI di shipData
+  const timestamp = data.timestamp;
   const ship = shipData[message.mmsi];
 
   if (ship) {
-    // Jika data kapal ditemukan, ambil kategori kapal
-    const shipCategory = ship.TYPENAME || "Unknown"; // Gunakan TYPENAME
-
-    // Dapatkan ikon berdasarkan kategori kapal
+    const shipCategory = ship.TYPENAME || "Unknown";
     const iconUrl = getShipIcon(shipCategory);
 
-    // Cek apakah marker sudah ada untuk MMSI ini
     if (!markers[message.mmsi]) {
-      // Jika marker belum ada, buat marker baru dan tambahkan ke peta
+      // Marker baru
       markers[message.mmsi] = L.marker([message.lat, message.lon], {
         icon: L.icon({
           iconUrl: iconUrl,
           iconSize: [40, 40],
           iconAnchor: [20, 20],
         }),
-        rotationAngle: message.cog, // Rotasi sesuai dengan course
+        rotationAngle: message.cog,
         rotationOrigin: "center center",
       })
         .addTo(map)
-        .bindPopup(createPopupContent(message, ship)); // Menambahkan konten popup
+        .bindPopup(createPopupContent(message, ship, timestamp))
+        .on("popupopen", () => {
+          openPopupMarker = markers[message.mmsi];
+        })
+        .on("popupclose", () => {
+          if (openPopupMarker === markers[message.mmsi]) {
+            openPopupMarker = null;
+          }
+        });
     } else {
-      // Jika marker sudah ada, update posisi marker
+      // Update marker posisi dan rotasi
       markers[message.mmsi].setLatLng([message.lat, message.lon]);
       if (message.cog) {
-        markers[message.mmsi].setRotationAngle(message.cog); // Update rotasi jika perlu
+        markers[message.mmsi].setRotationAngle(message.cog);
+      }
+
+      // Update konten popup jika popup terbuka untuk marker ini
+      if (openPopupMarker === markers[message.mmsi]) {
+        const newPopupContent = createPopupContent(message, ship, timestamp);
+        openPopupMarker.getPopup().setContent(newPopupContent);
       }
     }
   } else {
-    // console.warn(`Data kapal dengan MMSI ${message.mmsi} tidak ditemukan`);
+    console.warn(`Data kapal dengan MMSI ${message.mmsi} tidak ditemukan`);
   }
 };
 

@@ -39,6 +39,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-133433427-1"></script>
+
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -111,6 +112,14 @@ License: You must have a valid license purchased only from themeforest(the above
 </style>
 </head>
 <body class="layout-default" >
+  <script src="library/leaflet/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+  <script src="library/leaflet/rotate.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+  <script src="library/nmea/gps.min.js"></script>
+  <script src="https://unpkg.com/leaflet-freie-tonne"></script>
+  <script src="assets/fontawesome/js/all.min.js"></script>
 
 
   <!-- PAGE CONTENT -->
@@ -191,11 +200,11 @@ License: You must have a valid license purchased only from themeforest(the above
                     <img src="assets/flow.svg" alt="Flow" >
                   </a>
                 </li>
-                <!-- <li>
+                <li>
                   <a title="Carbon Intensity Indicator" href="javascript:opencarbonModal();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <img src="assets/emisi.svg" alt="Emisi" >
                   </a>
-                </li> -->
+                </li>
                 <li>
                   <a title="Display Data" href="javascript:opendisplayDataModal();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <img src="assets/monitoring.svg" alt="Flow" >
@@ -423,16 +432,27 @@ License: You must have a valid license purchased only from themeforest(the above
           </div>
           <!-- Modal body -->
           <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
-    
-              <!-- <div>
-                <h3>Fuel Consumption :</h3>
-                <ul id="carbonEmissionsList"></ul>
-            </div>
-            
-            <div>
-                <h3>CII Attained :</h3>
-                <ul id="conversionResultsList"></ul>
-            </div> -->
+            <h1>Rekam Data Kapal Berdasarkan MMSI</h1>
+            <label for="mmsiInput">MMSI yang Diinginkan:</label>
+            <input type="text" id="mmsiInput" placeholder="Masukkan MMSI">
+            <button id="startBtn" style="background-color: #4CAF50; color: white;">Start</button>
+            <button id="stopBtn" style="background-color: #f44336; color: white;" disabled>Stop</button>
+            <button id="downloadBtn" disabled>Unduh Data CSV</button>
+          
+            <h2>Data Rekaman</h2>
+            <table id="dataTable">
+              <thead>
+                <tr>
+                  <th>MMSI</th>
+                  <th>Latitude</th>
+                  <th>Longitude</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Data akan ditambahkan di sini -->
+              </tbody>
+            </table>
             
 
           </div>
@@ -552,12 +572,14 @@ License: You must have a valid license purchased only from themeforest(the above
       </div>
   </div>
 </div>
+<!-- <script src="public\js\pages\shipRecorder.js"></script> -->
 <!-- start acumulation script -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.0/dist/chartjs-plugin-zoom.min.js"></script>
+
 
 <script>
-  var ctx = document.getElementById('csvFlowRateChart').getContext('2d');
+ var ctx = document.getElementById('csvFlowRateChart').getContext('2d');
   var csvFlowRateChart = new Chart(ctx, {
       type: 'line',
       data: {
@@ -596,7 +618,13 @@ License: You must have a valid license purchased only from themeforest(the above
                   },
                   pan: {
                       enabled: true, // Pan dengan klik dan drag
-                      mode: 'x' // Pan hanya pada sumbu x (waktu)
+                      mode: 'xy', // Pan hanya pada sumbu x (waktu)
+                      onPan: function({ chart }) {
+                          console.log('Panning on', chart.chartArea);
+                      },
+                      onPanComplete: function({ chart }) {
+                          console.log('Panning complete', chart.chartArea);
+                      }
                   }
               }
           }
@@ -840,11 +868,11 @@ License: You must have a valid license purchased only from themeforest(the above
 <script>
   var recording = false;  // To track if recording is active
   var recordedData = [];  // Store recorded data
-
+  var flowRate = 0;  // Initialize flowRate
   var ws = new WebSocket('ws://167.71.197.48:1880/ws/flowrate');
   var lastRecordedSecond = null; // Track the last recorded second
 
-ws.onmessage = function(event) {
+  ws.onmessage = function(event) {
     console.log('Received WebSocket data:', event.data);
 
     try {
@@ -852,15 +880,17 @@ ws.onmessage = function(event) {
         flowRate = parseFloat(data.flowRate.replace(/[^0-9.]/g, '')); // Ensure only numbers
         console.log('Flow rate updated:', flowRate);
 
+        // Ambil waktu dari data.date
+        var currentTime = new Date(data.date);  // Menggunakan waktu dari WebSocket data
+
         if (recording) {
-            var now = new Date();
-            var currentSecond = now.getSeconds();
+            var currentSecond = currentTime.getSeconds();
 
             // Only record if the second has changed
             if (currentSecond % 1 === 0 && lastRecordedSecond !== currentSecond) {
                 lastRecordedSecond = currentSecond;
 
-                var time = getCurrentTime();
+                var time = formatTime(currentTime);  // Format waktu dari data.date
                 var second = recordedData.length + 1; // Incremental second counter
                 recordedData.push([time, second, flowRate]);
             }
@@ -868,7 +898,7 @@ ws.onmessage = function(event) {
     } catch (error) {
         console.error('Error parsing WebSocket message:', error);
     }
-};
+  };
 
   // Handle WebSocket errors
   ws.onerror = function(error) {
@@ -884,20 +914,16 @@ ws.onmessage = function(event) {
       console.log('WebSocket connection closed');
   };
 
-  // Get current time in hh:mm:ss format
-  function getCurrentTime() {
-      var now = new Date();
-      var hrs = now.getHours();
-      var mins = now.getMinutes();
-      var secs = now.getSeconds();
-
-      return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  // Format time as hh:mm:ss
+  function formatTime(date) {
+    var hrs = date.getHours();
+    var mins = date.getMinutes();
+    var secs = date.getSeconds();
+    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   }
 
   // Function to export recorded data as CSV
- // Function to export recorded data as CSV
-function exportToCSV() {
-    // Filter recordedData to only keep unique 'Second' values
+  function exportToCSV() {
     const filteredData = recordedData.filter((row, index, self) => {
         return self.findIndex(r => r[1] === row[1]) === index; // Keep the first occurrence of each 'Second'
     });
@@ -913,8 +939,7 @@ function exportToCSV() {
     link.setAttribute("download", "flowRateData.csv");
     document.body.appendChild(link);
     link.click();  // Trigger download
-}
-
+  }
 
   // Setup chart for flowRate
   var ctx = document.getElementById('flowRateChart').getContext('2d');
@@ -944,16 +969,22 @@ function exportToCSV() {
       }
   });
 
-  // Update chart every second
+  // Update chart every second if recording is active
   setInterval(function() {
-      if (recording) {
-          var formattedTime = getCurrentTime();
-          flowRateChart.data.labels.push(formattedTime);  // Add formatted time to chart
-          flowRateChart.data.datasets[0].data.push(flowRate);  // Add flowRate to chart
+    if (recording && recordedData.length > 0) {
+        var latestData = recordedData[recordedData.length - 1]; // Get the most recent data
+        flowRateChart.data.labels.push(latestData[0]);  // Add time (formatted) to chart labels
+        flowRateChart.data.datasets[0].data.push(latestData[2]);  // Add flow rate to chart dataset
 
-          flowRateChart.update();
-      }
-  }, 1000);
+        // Limit number of data points displayed on chart (optional)
+        if (flowRateChart.data.labels.length > 100) {  // Example: limit to 100 data points
+            flowRateChart.data.labels.shift();
+            flowRateChart.data.datasets[0].data.shift();
+        }
+
+        flowRateChart.update();  // Update chart
+    }
+  }, 1000);  // Update every second
 
   // Event listeners for start/stop recording
   document.getElementById('startRecordingBtn').addEventListener('click', function() {
@@ -972,6 +1003,7 @@ function exportToCSV() {
       console.log('Recording stopped and data exported');
   });
 </script>
+
 
 
 
@@ -1066,14 +1098,7 @@ function exportToCSV() {
 
   <script src="public/js/app.js"></script>
   
-  <script src="library/leaflet/leaflet.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
-  <script src="library/leaflet/rotate.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-  <script src="library/nmea/gps.min.js"></script>
-  <script src="https://unpkg.com/leaflet-freie-tonne"></script>
-  <script src="assets/fontawesome/js/all.min.js"></script>
+
 
 <script src="public/vendor/toastr/build/toastr.min.js"></script>
 <script src="public/js/plugins/toastr.js"></script>
