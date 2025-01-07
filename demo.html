@@ -786,7 +786,7 @@ var totalFuelConsumption = 0;
 var totalCiiAttained = 0;
 
 // WebSocket to get flowRate data
-var ws = new WebSocket('ws://167.71.197.48:1880/ws/flowrate');
+var ws = new WebSocket('ws://146.190.111.176/:1880/ws/flowrate');
 // var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
 ws.onmessage = function (event) {
   try {
@@ -911,7 +911,7 @@ function appendToList(listId, text) {
   var recording = false;  // To track if recording is active
   var recordedData = [];  // Store recorded data
   var flowRate = 0;  // Initialize flowRate
-  var ws = new WebSocket('ws://167.71.197.48:1880/ws/flowrate');
+  var ws = new WebSocket('ws://146.190.111.176:1880/ws/flowrate');
   // var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
   var lastRecordedSecond = null; // Track the last recorded second
 

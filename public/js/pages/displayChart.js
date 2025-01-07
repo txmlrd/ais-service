@@ -4,7 +4,7 @@ var previousFlowRateHistory = []; // Array for storing historical flow rate valu
 var timeLabels = []; // Array for storing time labels
 
 // Initialize WebSocket connection
-var flowRateWebSocket = new WebSocket("ws://167.71.197.48:1880/ws/flowrate");
+var flowRateWebSocket = new WebSocket("ws://146.190.111.176:1880/ws/flowrate");
 
 flowRateWebSocket.onmessage = function (event) {
   try {
