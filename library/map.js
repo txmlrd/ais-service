@@ -104,6 +104,10 @@ function createPopupContent(message, ship, formattedDate) {
 }
 
 // WebSocket untuk menangani data kapal real-time
+// Deklarasi variabel untuk menyimpan marker dengan popup terbuka
+let openPopupMarker = null;
+
+// WebSocket untuk menangani data kapal real-time
 socket.onmessage = (event) => {
   const data = JSON.parse(event.data);
   const message = data.message.data;
@@ -160,8 +164,6 @@ socket.onmessage = (event) => {
         openPopupMarker.getPopup().setContent(newPopupContent);
       }
     }
-  } else {
-    console.warn(`Data kapal dengan MMSI ${message.mmsi} tidak ditemukan`);
   }
 };
 

@@ -789,19 +789,26 @@ var totalCiiAttained = 0;
 var ws = new WebSocket('ws://146.190.111.176:1880/ws/flowrate');
 // var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
 ws.onmessage = function (event) {
-  try {
-    var data = JSON.parse(event.data);
-    flowRate = parseFloat(data.flowRate.replace(/[^0-9.]/g, '')) || 0; // Ensure valid flow rate or 0
+    console.log("Raw data from WebSocket:", event.data);
+    try {
+        var data = JSON.parse(event.data); // Parsing data dari server
+        console.log("Parsed data:", data);
 
-    // Update flow rate display
-    document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
-  } catch (error) {
-    console.error('Error parsing WebSocket message:', error);
-  }
+        // Gunakan 'flowrate' (huruf kecil) yang sesuai dengan data yang diterima
+        var flowRate = (data && !isNaN(parseFloat(data.flowrate))) ? parseFloat(data.flowrate) : 0;
+
+        console.log("Flow Rate:", flowRate);
+        // Update elemen dengan ID 'currentFlowRate' jika valid
+        document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
+    } catch (error) {
+        console.error("Error parsing WebSocket message:", error);
+    }
 };
+
 
 // Track minute count
 var currentMinute = 0;
+
 var isMinuteCalculated = false; // Prevent recalculations for the same data
 
 // Interval to process data every second
@@ -914,26 +921,29 @@ function appendToList(listId, text) {
   var ws = new WebSocket('ws://146.190.111.176:1880/ws/flowrate');
   // var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
   var lastRecordedSecond = null; // Track the last recorded second
-
   ws.onmessage = function(event) {
     console.log('Received WebSocket data:', event.data);
 
     try {
+        // Parse data sebagai JSON
         var data = JSON.parse(event.data);
-        flowRate = parseFloat(data.flowRate.replace(/[^0-9.]/g, '')); // Ensure only numbers
-        console.log('Flow rate updated:', flowRate);
 
-        // Ambil waktu dari data.date
-        var currentTime = new Date(data.date);  // Menggunakan waktu dari WebSocket data
+        // Ambil flowrate dan waktu dari data
+        flowRate = parseFloat(data.flowrate); // Langsung konversi ke float
+
+        // Parse waktu ke objek Date
+        var currentTime = new Date();
+        var [hours, minutes, seconds] = data.time.split(':').map(Number); // Split "19:30:04"
+        currentTime.setHours(hours, minutes, seconds);
 
         if (recording) {
             var currentSecond = currentTime.getSeconds();
 
-            // Only record if the second has changed
+            // Record hanya jika detik berubah
             if (currentSecond % 1 === 0 && lastRecordedSecond !== currentSecond) {
                 lastRecordedSecond = currentSecond;
 
-                var time = formatTime(currentTime);  // Format waktu dari data.date
+                var time = formatTime(currentTime);  // Format waktu ke hh:mm:ss
                 var second = recordedData.length + 1; // Incremental second counter
                 recordedData.push([time, second, flowRate]);
             }
@@ -941,7 +951,8 @@ function appendToList(listId, text) {
     } catch (error) {
         console.error('Error parsing WebSocket message:', error);
     }
-  };
+};
+
 
   // Handle WebSocket errors
   ws.onerror = function(error) {
