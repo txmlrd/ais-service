@@ -786,7 +786,7 @@ var totalFuelConsumption = 0;
 var totalCiiAttained = 0;
 
 // WebSocket to get flowRate data
-var ws = new WebSocket('ws://146.190.111.176/:1880/ws/flowrate');
+var ws = new WebSocket('ws://146.190.111.176:1880/ws/flowrate');
 // var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
 ws.onmessage = function (event) {
   try {
