@@ -10,542 +10,720 @@ License: You must have a valid license purchased only from themeforest(the above
 
 <!DOCTYPE html>
 <html lang="en">
- <head>
+
+<head>
     <meta charset="utf-8">
-     
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="frontted">
     <title>PHE POLENG AISITS Desktop Application</title>
-    
+
     <!-- BEGIN: CSS Assets -->
     <link rel="stylesheet" href="public/css/app.css" />
     <link type="text/css" href="public/css/vendor-materialicons.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css"  rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
 
     <!-- Perfect Scrollbar -->
     <link type="text/css" href="public/vendor/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.2/dist/flowbite.min.css" />
-<!-- Toastr -->
-<link type="text/css" href="public/vendor/toastr/build/toastr.min.css" rel="stylesheet">
+    <!-- Toastr -->
+    <link type="text/css" href="public/vendor/toastr/build/toastr.min.css" rel="stylesheet">
 
-  <!-- Vector Maps -->
-<link type="text/css" href="public/vendor/jqvmap/dist/jqvmap.min.css" rel="stylesheet">
-<!-- Flatpickr -->
-<link type="text/css" href="public/css/vendor-flatpickr.css" rel="stylesheet">
-<link type="text/css" href="public/css/vendor-flatpickr-airbnb.css" rel="stylesheet">
+    <!-- Vector Maps -->
+    <link type="text/css" href="public/vendor/jqvmap/dist/jqvmap.min.css" rel="stylesheet">
+    <!-- Flatpickr -->
+    <link type="text/css" href="public/css/vendor-flatpickr.css" rel="stylesheet">
+    <link type="text/css" href="public/css/vendor-flatpickr-airbnb.css" rel="stylesheet">
 
-<link rel="stylesheet" href="library/leaflet/leaflet.css">
+    <link rel="stylesheet" href="library/leaflet/leaflet.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-133433427-1"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-133433427-1"></script>
 
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'UA-133433427-1');
-</script>
+        gtag('config', 'UA-133433427-1');
+    </script>
 
-<style>
-  .padding {
-    padding-top: 30px;
-  }
-  
-  #fixedButton {
-  position: fixed;
-  top: 15px;
-  right: 10px;
-  z-index: 100;
-  padding: 5px 15px;
-  border-radius: 5px;
-  background-color: #292a2e;
-  color: white;
-  font-size: 25px;
-  cursor: pointer;
-}
-  .icon-button {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 30px;
+    <style>
+        .padding {
+            padding-top: 30px;
+        }
 
-  border: none;
-  outline: none;
-  border-radius: 50%;
-}
+        #fixedButton {
+            position: fixed;
+            top: 15px;
+            right: 10px;
+            z-index: 100;
+            padding: 5px 15px;
+            border-radius: 5px;
+            background-color: #292a2e;
+            color: white;
+            font-size: 25px;
+            cursor: pointer;
+        }
 
-.icon-button:hover {
-  cursor: pointer;
-}
+        .icon-button {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
 
-.icon-button:active {
-  background: #cccccc;
-}
+            border: none;
+            outline: none;
+            border-radius: 50%;
+        }
 
-.icon-button__badge {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 15px;
-  height: 15px;
-  background: blue;
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  font-size: small;
-}
-.leaflet-div-icon { background-color: transparent; border-color: transparent }
-.svg-icon {
-    width: 10px;  /* Ukuran SVG dot */
-    height: 10px;
-    margin-right: 10px;  /* Jarak antara SVG dan teks */
-    display: inline-block;
-}
+        .icon-button:hover {
+            cursor: pointer;
+        }
 
+        .icon-button:active {
+            background: #cccccc;
+        }
 
-</style>
+        .icon-button__badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 15px;
+            height: 15px;
+            background: blue;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            font-size: small;
+        }
+
+        .leaflet-div-icon {
+            background-color: transparent;
+            border-color: transparent
+        }
+
+        .svg-icon {
+            width: 10px;
+            /* Ukuran SVG dot */
+            height: 10px;
+            margin-right: 10px;
+            /* Jarak antara SVG dan teks */
+            display: inline-block;
+        }
+    </style>
 </head>
-<body class="layout-default" >
-  <script src="library/leaflet/leaflet.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
-  <script src="library/leaflet/rotate.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-  <script src="library/nmea/gps.min.js"></script>
-  <script src="https://unpkg.com/leaflet-freie-tonne"></script>
-  <script src="assets/fontawesome/js/all.min.js"></script>
+
+<body class="layout-default">
+    <script src="library/leaflet/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+    <script src="library/leaflet/rotate.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <script src="library/nmea/gps.min.js"></script>
+    <script src="https://unpkg.com/leaflet-freie-tonne"></script>
+    <script src="assets/fontawesome/js/all.min.js"></script>
 
 
-  <!-- PAGE CONTENT -->
+    <!-- PAGE CONTENT -->
     <button id="fixedButton">
-      ☰
+        ☰
     </button>
 
-<section class="max-w-12xl  mx-auto my-12" style="margin: 0px;"> 
+    <section class="max-w-12xl  mx-auto my-12" style="margin: 0px;">
 
-<div class="lg:flex" style="background-color: #292a2e;">
-  
+        <div class="lg:flex" style="background-color: #292a2e;">
 
-  <!-- <div class="lg:w-3/4 lg:mr-0">
+
+            <!-- <div class="lg:w-3/4 lg:mr-0">
     <div class="card"> -->
-      
-     
-        <div class="z-40 relative" id="map" style="width:100%;height:100vh;"></div>
-        <div id="contentToToggle" class="hidden mt-4">
-        <div class="padding">
-        <aside class="w-30" aria-label="Sidebar" >
-          <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800" style="background-color: #292a2e;">
-             <ul class="space-y-2">
-                <li>
-                <a title="Home" href="javascript:openHomeModal();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 ">
-                  <!-- <img id='vector' class='vector' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAYCAYAAAARfGZ1AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAF6SURBVHgB7VU9UsJAFH4Biphqk8oy3iClZbgBlHZ6AuUGcgKxswNOYKkdeAL0BMQTJF1SJX4vLswzkw1hRB1n+GZ29u2+9768vwWiFlBKha7rLrAKrBWf2/h1dxl4nneH7QHL11enlmVdOo5DaZq+NPlaZI7WB8kjxEBcR+Ij5bkoin6SJFEdR8dAfA3ilSQGySiO4zPsY2HKAXCZbmhX5DBSMJ5CHFSiGyK6V/qa1UJmgfMsz/OxzKIrHEIYPEE8Fw73IL6opp1lWWLb9hziCWw29gHkAe7foI+25KJpShsmTIoyTGCYUQ2yTzyD7B2kgfZVstkWE4NoWzPIS2xXpibVgcuEbQriUGQ9IcxtrOe3MDVmj4/cbriY12JB6yKeBvomwLcm3egO/SD+L3mvSSnrZ8ASfeqblH8XuYSe/xJyng9CjkdVpq8fzLqNz3EUf59cNlTxn3BF71MzgiafHo+YHi3+PQ5pPxh9wDvjsgwhzOlwSPSbGH0AF46dLu2lh24AAAAASUVORK5CYII='/>                </img>                                                               -->
-                  <div class="icon-button">
-                    <img src="assets/home.svg" alt="Legenda" class="material-icons">
-                  </div>
-                </a>
-                </li>
-            
-                <li>
-                   <a title="Daftar kapal di area terbatas" href="javascript:openAlertModal();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                    
-                      <div class="icon-button">
-                        <img src="assets/warning.svg" alt="Legenda" class="material-icons">
-                        <span class="icon-button__badge" id="notif_counter_alert">0</span>
-                      </div>
-                   </a>
-                </li>
-                <li>
-                  <a title="Daftar kapal di area terlarang" href="javascript:openDangerModal();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                    
-                     <div class="icon-button">
-                      <img src="assets/danger.svg" alt="Legenda" class="material-icons">
-                      <span class="icon-button__badge" id="notif_counter_danger">0</span>
-                    </div>
-                  </a>
-               </li>
 
-               <li>
-                <a title="Legenda" href="javascript:openLegendModal();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-            
-                  <img src="assets/legenda.svg" alt="Legenda">
-                  
-                </a>
-                </li>
-                <li>
-                  <a title="Cursor Info" href="javascript:openCursorInfoModal();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <img src="assets/cursor.svg" alt="Cursor Info" >
-                     
-                  </a>
-                </li>
-                <!-- <li>
+
+            <div class="z-40 relative" id="map" style="width:100%;height:100vh;"></div>
+            <div id="contentToToggle" class="hidden mt-4">
+                <div class="padding">
+                    <aside class="w-30" aria-label="Sidebar">
+                        <div class="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800"
+                            style="background-color: #292a2e;">
+                            <ul class="space-y-2">
+                                <li>
+                                    <a title="Home" href="javascript:openHomeModal();"
+                                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 ">
+                                        <!-- <img id='vector' class='vector' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAYCAYAAAARfGZ1AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAF6SURBVHgB7VU9UsJAFH4Biphqk8oy3iClZbgBlHZ6AuUGcgKxswNOYKkdeAL0BMQTJF1SJX4vLswzkw1hRB1n+GZ29u2+9768vwWiFlBKha7rLrAKrBWf2/h1dxl4nneH7QHL11enlmVdOo5DaZq+NPlaZI7WB8kjxEBcR+Ij5bkoin6SJFEdR8dAfA3ilSQGySiO4zPsY2HKAXCZbmhX5DBSMJ5CHFSiGyK6V/qa1UJmgfMsz/OxzKIrHEIYPEE8Fw73IL6opp1lWWLb9hziCWw29gHkAe7foI+25KJpShsmTIoyTGCYUQ2yTzyD7B2kgfZVstkWE4NoWzPIS2xXpibVgcuEbQriUGQ9IcxtrOe3MDVmj4/cbriY12JB6yKeBvomwLcm3egO/SD+L3mvSSnrZ8ASfeqblH8XuYSe/xJyng9CjkdVpq8fzLqNz3EUf59cNlTxn3BF71MzgiafHo+YHi3+PQ5pPxh9wDvjsgwhzOlwSPSbGH0AF46dLu2lh24AAAAASUVORK5CYII='/>                </img>                                                               -->
+                                        <div class="icon-button">
+                                            <img src="assets/home.svg" alt="Legenda" class="material-icons">
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a title="Daftar kapal di area terbatas" href="javascript:openAlertModal();"
+                                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+
+                                        <div class="icon-button">
+                                            <img src="assets/warning.svg" alt="Legenda" class="material-icons">
+                                            <span class="icon-button__badge" id="notif_counter_alert">0</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a title="Daftar kapal di area terlarang" href="javascript:openDangerModal();"
+                                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+
+                                        <div class="icon-button">
+                                            <img src="assets/danger.svg" alt="Legenda" class="material-icons">
+                                            <span class="icon-button__badge" id="notif_counter_danger">0</span>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a title="Legenda" href="javascript:openLegendModal();"
+                                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+
+                                        <img src="assets/legenda.svg" alt="Legenda">
+
+                                    </a>
+                                </li>
+                                <li>
+                                    <a title="Cursor Info" href="javascript:openCursorInfoModal();"
+                                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <img src="assets/cursor.svg" alt="Cursor Info">
+
+                                    </a>
+                                </li>
+                                <!-- <li>
                   <a title="Track Ship" href="javascript:openTrackShipModal();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <img src="assets/ship-track.svg" alt="Track Ship" >
                      
                   </a>
                 </li> -->
-                <li>
-                  <a title="Track Ship" href="javascript:opencarbonModal();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <img src="assets/ship-track.svg" alt="Emisi" >
-                  </a>
-                </li>
-                <li>
-                  <a title="Reload" href="javascript:reloadAWSPage();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <img src="assets/reload.svg" alt="Reload" >
-                     
-                  </a>
-                </li>
-                <li>
-                  <a title="Flow Meter" href="javascript:openflowModal();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <img src="assets/flow.svg" alt="Flow" >
-                  </a>
-                </li>
-           
-                <li>
-                  <a title="Display Data" href="javascript:opendisplayDataModal();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <img src="assets/monitoring.svg" alt="Flow" >
-                  </a>
-                </li>
-                <!-- <li>
+                                <li>
+                                    <a title="Track Ship" href="javascript:opencarbonModal();"
+                                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <img src="assets/ship-track.svg" alt="Emisi">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a title="CII Modal" href="javascript:openCiiModal();"
+                                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <img src="assets/ship-track.svg" alt="Emisi">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a title="Reload" href="javascript:reloadAWSPage();"
+                                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <img src="assets/reload.svg" alt="Reload">
+
+                                    </a>
+                                </li>
+                                <li>
+                                    <a title="Flow Meter" href="javascript:openflowModal();"
+                                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <img src="assets/flow.svg" alt="Flow">
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a title="Display Data" href="javascript:opendisplayDataModal();"
+                                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <img src="assets/monitoring.svg" alt="Flow">
+                                    </a>
+                                </li>
+                                <!-- <li>
                   <a title="Monitor" href="javascript:openMonitor();" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                     <img src="assets/flow.svg" alt="Flow" >
                   </a>
                 </li> -->
-             </ul>
-          </div>
-        </div>
-        </div>
-       </aside>
- 
-</div>
-</div>
-</section>
-
-
-<!-- ALERT MODAL -->
-<div id="defaultModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
-  <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <!-- Modal header -->
-      
-          <!-- Modal body -->
-          <div class="p-6 space-y-6">
-              <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400" id="loading-content-modal">
-                
-              </p>
-              <div class="w-full bg-gray-light h-1">
-                <div class="bg-success text-xs leading-none h-1 text-center text-white" style="width: 0%" id="loading-bar-modal"></div>
-              </div>
-          </div>
-          <!-- Modal footer -->
-       
-      </div>
-  </div>
-</div>
-
-<!-- END ALERT MODAL -->
-<!-- Top Right Modal -->
-<div id="HomeModal" data-modal-placement="top-right" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
-  <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <!-- Modal header -->
-          <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
-              <h3 class="text-xl font-medium text-gray-900 dark:text-white bg-blue-200">
-                AIS Consortium Locations:
-              </h3>
-              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="closeHomeModal();" >
-                  <svg aria-hidden="true" class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-              </button>
-          </div>
-
-          <!-- Modal body -->
-          <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
-            
-              <a href="javascript:openlocation(-7.214897824915071, 113.2724840175542);"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-10 h-auto " src="assets/univ/its.png" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" > Institut Teknologi Sepuluh Nopember </span>
-              </a>
-              <a href="javascript:openlocation(-7.179005762666296, 113.26746168318137);"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-10 h-auto " src="assets/univ/madura.png" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" > Politeknik Madura </span>
-              </a>
-              <a href="javascript:openlocation(-8.293908461889158, 114.30690765286981);"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-10 h-auto " src="assets/univ/banyuwangi.png" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" > Politeknik Banyuwangi </span>
-              </a>
-              <a href="javascript:openlocation(-8.089817909349152, 115.07523046151393);"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-10 h-auto " src="assets/univ/ganesa.png" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" > Universitas Pendidikan Ganesha </span>
-              </a>
-              <a href="javascript:openlocation(-8.79800762884008, 115.17238136821669);"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-10 h-auto " src="assets/univ/udayana.png" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" > Universitas Udayana </span>
-              </a>
-              <a href="javascript:openlocation(-8.586620862289703, 116.09211179520214);"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-10 h-auto " src="assets/univ/mataram.png" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" > Universitas Mataram </span>
-              </a>
-              <a href="javascript:openlocation(-6.860952810958728, 107.5943391681968);"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-10 h-auto " src="assets/univ/indo.png" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" > Universitas Pendidikan Indonesia </span>
-              </a>
-              <a href="javascript:openlocation(1.4590283280803318, 102.15092486147962);"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-10 h-auto " src="assets/univ/bengkalis.png" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" > Politeknis Bengkalis </span>
-              </a>
-              <a href="javascript:openlocation(1.1225975185441963, 104.04753499799416);"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-10 h-auto " src="assets/univ/batam.png" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" > Politeknis Batam </span>
-              </a>
+                            </ul>
+                        </div>
+                </div>
             </div>
+            </aside>
 
-            <!-- Modal footer -->
-            <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                <!-- <button data-modal-toggle="top-right-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
-                <button onclick="closeHomeModal();"  type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
+        </div>
+        </div>
+    </section>
+
+
+    <!-- ALERT MODAL -->
+    <div id="defaultModal" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+
+                <!-- Modal body -->
+                <div class="p-6 space-y-6">
+                    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400" id="loading-content-modal">
+
+                    </p>
+                    <div class="w-full bg-gray-light h-1">
+                        <div class="bg-success text-xs leading-none h-1 text-center text-white" style="width: 0%"
+                            id="loading-bar-modal"></div>
+                    </div>
+                </div>
+                <!-- Modal footer -->
+
             </div>
         </div>
     </div>
-  </div>
 
-<!-- Top Right Modal -->
-<div id="warningModal" data-modal-placement="top-right" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
-  <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <!-- Modal header -->
-          <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
-              <h3 class="text-xl font-medium text-gray-900 dark:text-white">
-                Daftar kapal yang berada di area terbatas
-              </h3>
-              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"  onclick="closeWarningModal();">
-                  <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                  <span class="sr-only">Tutup</span>
-              </button>
-          </div>
-          <!-- Modal body -->
-          <div class="p-6 space-y-6 bg-white" id="divAlert" style="height: 400px !important; overflow:auto;">
-              
-          </div>
-          <!-- Modal footer -->
-          <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-              <!-- <button data-modal-toggle="top-right-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
-              <button onclick="closeWarningModal();"  type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
-          </div>
-      </div>
-  </div>
-</div>
-<div id="dangerModal" data-modal-placement="top-right" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
-  <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <!-- Modal header -->
-          <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
-              <h3 class="text-xl font-medium text-gray-900 dark:text-white">
-                  Daftar kapal yang berada di area terlarang
-              </h3>
-              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="closeDangerModal();" >
-                  <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                  <span class="sr-only">Tutup </span>
-              </button>
-          </div>
-          <!-- Modal body -->
-          <div class="p-6 space-y-6" id="divDanger" style="height: 400px !important; overflow:auto;">
-            
-          </div>
-          <!-- Modal footer -->
-          <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-              <!-- <button data-modal-toggle="top-right-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
-              <button onclick="closeDangerModal();"  type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
-          </div>
-      </div>
-  </div>
-</div>
-<div id="legendModal" data-modal-placement="top-right" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
-  <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <!-- Modal header -->
-          <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
-              <h3 class="text-xl font-medium text-gray-900 dark:text-white">
-                  Legenda
-              </h3>
-              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="closeLegendModal();" >
-                  <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                  <span class="sr-only">Tutup </span>
-              </button>
-          </div>
-          <!-- Modal body -->
-          <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
-            
-              <a href="javascript:void();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-5 h-auto " src="assets/kapalsvg/cruise.svg" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" >Passeger, Cruise, Troop, Crew </span>
-              </a>
-              <a href="javascript:void();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-5 h-auto " src="assets/kapalsvg/cargo.svg" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" >Tanker, Barge, Crude, LNG, LPG</span>
-              </a>
-              <a href="javascript:void();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-5 h-auto " src="assets/kapalsvg/support.svg" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" >Utility, Tug, Pilot, Tow, Support, Supply </span>
-              </a>
-              <a href="javascript:void();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-5 h-auto " src="assets/kapalsvg/tanker.svg" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" > Cargo, (Bulk) Carrier, Container </span>
-              </a>
-              <a href="javascript:void();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-5 h-auto " src="assets/kapalsvg/special.svg" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" >Special Type: Well Stimulation, Pipe Layer, etc</span>
-              </a>
-              <a href="javascript:void();"  class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                <img  class="w-5 h-auto " src="assets/kapalsvg/unknown.svg" alt=""> 
-                <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium" >Unknown</span>
-              </a>
-           
-          </div>
-          <!-- Modal footer -->
-          <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-              <!-- <button data-modal-toggle="top-right-m525025085odal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
-              <button onclick="closeLegendModal();"  type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
-          </div>
-      </div>
-  </div>
-</div>
-<div id="carbonModal" class="hidden fixed inset-0 z-50 flex justify-center items-center">
-  <!-- Modal Background with opacity -->
-  <div class="absolute inset-0" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+    <!-- END ALERT MODAL -->
+    <!-- Top Right Modal -->
+    <div id="HomeModal" data-modal-placement="top-right" tabindex="-1"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+        <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white bg-blue-200">
+                        AIS Consortium Locations:
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        onclick="closeHomeModal();">
+                        <svg aria-hidden="true" class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
 
-  <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto bg-white rounded-lg shadow dark:bg-gray-700">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <!-- Modal header -->
-          <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
-              <h3 class="text-xl font-medium text-gray-900 dark:text-white">
-                  Carbon Intensity Indicator
-              </h3>
-              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="closeCarbonModal();" >
-                  <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                  <span class="sr-only">Tutup </span>
-              </button>
-          </div>
-          <!-- Modal body -->
-          <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
-            <h1>Rekam Data Kapal Berdasarkan MMSI</h1>
-            <label for="mmsiInput">MMSI yang Diinginkan:</label>
-            <input type="text" id="mmsiInput" placeholder="Masukkan MMSI">
-            <button id="startBtn" style="background-color: #4CAF50; color: white;">Start</button>
-            <button id="stopBtn" style="background-color: #f44336; color: white;" disabled>Stop</button>
-            <button id="downloadBtn" disabled>Unduh Data CSV</button>
-          
-            <h2>Data Rekaman</h2>
-            <table id="dataTable">
-              <thead>
-                <tr>
-                  <th>MMSI</th>
-                  <th>Latitude</th>
-                  <th>Longitude</th>
-                  <th>Timestamp</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Data akan ditambahkan di sini -->
-              </tbody>
-            </table>
-            
+                <!-- Modal body -->
+                <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
 
-          </div>
-          <!-- Modal footer -->
-          <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-              <!-- <button data-modal-toggle="top-right-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
-              <button onclick="closeCarbonModal();"  type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
-          </div>
-      </div>
-  </div>
-</div>
+                    <a href="javascript:openlocation(-7.214897824915071, 113.2724840175542);"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-10 h-auto " src="assets/univ/its.png" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium"> Institut
+                            Teknologi Sepuluh Nopember </span>
+                    </a>
+                    <a href="javascript:openlocation(-7.179005762666296, 113.26746168318137);"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-10 h-auto " src="assets/univ/madura.png" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium"> Politeknik
+                            Madura </span>
+                    </a>
+                    <a href="javascript:openlocation(-8.293908461889158, 114.30690765286981);"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-10 h-auto " src="assets/univ/banyuwangi.png" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium"> Politeknik
+                            Banyuwangi </span>
+                    </a>
+                    <a href="javascript:openlocation(-8.089817909349152, 115.07523046151393);"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-10 h-auto " src="assets/univ/ganesa.png" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium"> Universitas
+                            Pendidikan Ganesha </span>
+                    </a>
+                    <a href="javascript:openlocation(-8.79800762884008, 115.17238136821669);"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-10 h-auto " src="assets/univ/udayana.png" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium"> Universitas
+                            Udayana </span>
+                    </a>
+                    <a href="javascript:openlocation(-8.586620862289703, 116.09211179520214);"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-10 h-auto " src="assets/univ/mataram.png" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium"> Universitas
+                            Mataram </span>
+                    </a>
+                    <a href="javascript:openlocation(-6.860952810958728, 107.5943391681968);"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-10 h-auto " src="assets/univ/indo.png" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium"> Universitas
+                            Pendidikan Indonesia </span>
+                    </a>
+                    <a href="javascript:openlocation(1.4590283280803318, 102.15092486147962);"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-10 h-auto " src="assets/univ/bengkalis.png" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium"> Politeknis
+                            Bengkalis </span>
+                    </a>
+                    <a href="javascript:openlocation(1.1225975185441963, 104.04753499799416);"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-10 h-auto " src="assets/univ/batam.png" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium"> Politeknis
+                            Batam </span>
+                    </a>
+                </div>
 
-<!-- start menu display -->
-<div id="displayDataModal" class="hidden fixed inset-0 z-50 flex justify-center items-center">
-  <!-- Modal Background with opacity -->
-  <div class="absolute inset-0" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                    <!-- <button data-modal-toggle="top-right-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
+                    <button onclick="closeHomeModal();" type="button"
+                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto bg-white rounded-lg shadow dark:bg-gray-700">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <!-- Modal header -->
-          <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
-              <h3 class="text-xl font-medium text-gray-900 dark:text-white">
-                  Flow Rate
-              </h3>
-              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="closeDisplayDataModal();">
-                  <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                  <span class="sr-only">Tutup</span>
-              </button>
-          </div>
-          <!-- Modal body -->
-          <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
- <input type="file" id="csvFileInput" accept=".csv" onchange="handleCSVUpload(event)" />
- <canvas id="csvFlowRateChart" width="400" height="200"></canvas>
- <p><strong>Average Flow Rate per Minute:</strong></p>
- <ul id="averageFlowRatesList"></ul> 
- <p><strong>Volume</strong> <span id="accumulatedAverage">0.00</span> Liter</p>
- <div>
-  <h3>Fuel Consumption :</h3>
-  <ul id="carbonEmissionsList"></ul>
-  <p><strong>Total Fuel Consumption :</strong> <span id="totalFuelConsumption">0.00</span> grams</p>
-</div>
+    <!-- Top Right Modal -->
+    <div id="warningModal" data-modal-placement="top-right" tabindex="-1"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                        Daftar kapal yang berada di area terbatas
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        onclick="closeWarningModal();">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Tutup</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6 bg-white" id="divAlert" style="height: 400px !important; overflow:auto;">
 
-<div>
-  <h3>CII Attained :</h3>
-  <ul id="conversionResultsList"></ul>
-  <p><strong>Total CII Attained :</strong> <span id="totalCiiAttained">0.00</span> g-CO2/ton.Nm</p>
-</div>
-            
-          </div>
-          <!-- Modal footer -->
-          <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-              <button onclick="closeDisplayDataModal();" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
-          </div>
-      </div>
-  </div>
-</div>
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                    <!-- <button data-modal-toggle="top-right-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
+                    <button onclick="closeWarningModal();" type="button"
+                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="dangerModal" data-modal-placement="top-right" tabindex="-1"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                        Daftar kapal yang berada di area terlarang
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        onclick="closeDangerModal();">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Tutup </span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6" id="divDanger" style="height: 400px !important; overflow:auto;">
 
-<!-- start menu flowrate -->
-<!-- Flow Rate Modal -->
-<div id="flowModal" class="hidden fixed inset-0 z-50 flex justify-center items-center">
-  <!-- Modal Background with opacity -->
-  <div class="absolute inset-0" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                    <!-- <button data-modal-toggle="top-right-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
+                    <button onclick="closeDangerModal();" type="button"
+                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="legendModal" data-modal-placement="top-right" tabindex="-1"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+        <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                        Legenda
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        onclick="closeLegendModal();">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Tutup </span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
 
-  <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto bg-white rounded-lg shadow dark:bg-gray-700">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <!-- Modal header -->
-          <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
-              <h3 class="text-xl font-medium text-gray-900 dark:text-white">
-                  Flow Rate
-              </h3>
-              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="closeflowModal();">
-                  <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                  <span class="sr-only">Tutup</span>
-              </button>
-          </div>
-          <!-- Modal body -->
-          <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
-            <button id="startRecordingBtn" class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
-              Start Recording
-            </button>
-            <button id="stopRecordingBtn" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300" disabled>
-              Stop Recording
-            </button>
-            
-            <!-- <div class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <a href="javascript:void();"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-5 h-auto " src="assets/kapalsvg/cruise.svg" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium">Passeger,
+                            Cruise, Troop, Crew </span>
+                    </a>
+                    <a href="javascript:void();"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-5 h-auto " src="assets/kapalsvg/cargo.svg" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium">Tanker, Barge,
+                            Crude, LNG, LPG</span>
+                    </a>
+                    <a href="javascript:void();"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-5 h-auto " src="assets/kapalsvg/support.svg" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium">Utility, Tug,
+                            Pilot, Tow, Support, Supply </span>
+                    </a>
+                    <a href="javascript:void();"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-5 h-auto " src="assets/kapalsvg/tanker.svg" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium"> Cargo, (Bulk)
+                            Carrier, Container </span>
+                    </a>
+                    <a href="javascript:void();"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-5 h-auto " src="assets/kapalsvg/special.svg" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium">Special Type:
+                            Well Stimulation, Pipe Layer, etc</span>
+                    </a>
+                    <a href="javascript:void();"
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <img class="w-5 h-auto " src="assets/kapalsvg/unknown.svg" alt="">
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium">Unknown</span>
+                    </a>
+
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                    <!-- <button data-modal-toggle="top-right-m525025085odal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
+                    <button onclick="closeLegendModal();" type="button"
+                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="carbonModal" class="hidden fixed inset-0 z-50 flex justify-center items-center">
+        <!-- Modal Background with opacity -->
+        <div class="absolute inset-0" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+
+        <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                        Carbon Intensity Indicator
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        onclick="closeCarbonModal();">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Tutup </span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
+                    <h1>Rekam Data Kapal Berdasarkan MMSI</h1>
+                    <label for="mmsiInput">MMSI yang Diinginkan:</label>
+                    <input type="text" id="mmsiInput" placeholder="Masukkan MMSI">
+                    <button id="startBtn" style="background-color: #4CAF50; color: white;">Start</button>
+                    <button id="stopBtn" style="background-color: #f44336; color: white;" disabled>Stop</button>
+                    <button id="downloadBtn" disabled>Unduh Data CSV</button>
+
+                    <h2>Data Rekaman</h2>
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>MMSI</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data akan ditambahkan di sini -->
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                    <!-- <button data-modal-toggle="top-right-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
+                    <button onclick="closeCarbonModal();" type="button"
+                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="ciiModal" class="hidden fixed inset-0 z-50 flex justify-center items-center">
+        <!-- Modal Background with opacity -->
+        <div class="absolute inset-0" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+
+        <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                        Carbon Intensity Indicator
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        onclick="closeCiiModal();">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Tutup </span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
+                    <h1>Rekam Data Kapal Berdasarkan MMSI</h1>
+                    <form id="ciiForm">
+                        <label for="mmsiInput">MMSI yang Diinginkan:</label>
+                        <input type="text" name="mmsi" id="ciiModalMmsiInput" placeholder="Masukkan MMSI">
+                        <label for="ciiModalCiiInput">Value Carbon Intensity Index:</label>
+                        <input type="text" name="cii" id="ciiModalCiiInput" placeholder="Masukkan MMSI">
+                        <button>Submit</button>
+                    </form>
+                    <h2>Data Rekaman</h2>
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>MMSI</th>
+                                <th>CII</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data akan ditambahkan di sini -->
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                    <!-- <button data-modal-toggle="top-right-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
+                    <button onclick="closeCiiModal();" type="button"
+                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- start menu display -->
+    <div id="displayDataModal" class="hidden fixed inset-0 z-50 flex justify-center items-center">
+        <!-- Modal Background with opacity -->
+        <div class="absolute inset-0" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+
+        <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                        Flow Rate
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        onclick="closeDisplayDataModal();">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Tutup</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
+                    <input type="file" id="csvFileInput" accept=".csv" onchange="handleCSVUpload(event)" />
+                    <canvas id="csvFlowRateChart" width="400" height="200"></canvas>
+                    <p><strong>Average Flow Rate per Minute:</strong></p>
+                    <ul id="averageFlowRatesList"></ul>
+                    <p><strong>Volume</strong> <span id="accumulatedAverage">0.00</span> Liter</p>
+                    <div>
+                        <h3>Fuel Consumption :</h3>
+                        <ul id="carbonEmissionsList"></ul>
+                        <p><strong>Total Fuel Consumption :</strong> <span id="totalFuelConsumption">0.00</span> grams
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3>CII Attained :</h3>
+                        <ul id="conversionResultsList"></ul>
+                        <p><strong>Total CII Attained :</strong> <span id="totalCiiAttained">0.00</span> g-CO2/ton.Nm
+                        </p>
+                    </div>
+
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                    <button onclick="closeDisplayDataModal();" type="button"
+                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- start menu flowrate -->
+    <!-- Flow Rate Modal -->
+    <div id="flowModal" class="hidden fixed inset-0 z-50 flex justify-center items-center">
+        <!-- Modal Background with opacity -->
+        <div class="absolute inset-0" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+
+        <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                        Flow Rate
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        onclick="closeflowModal();">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Tutup</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
+                    <button id="startRecordingBtn"
+                        class="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                        Start Recording
+                    </button>
+                    <button id="stopRecordingBtn"
+                        class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-300"
+                        disabled>
+                        Stop Recording
+                    </button>
+
+                    <!-- <div class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
                 <circle cx="5" cy="5" r="5" fill="blue" />
             </svg>
@@ -553,618 +731,770 @@ License: You must have a valid license purchased only from themeforest(the above
               <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium">Flow Rate</span>
               <div id="flowRateDisplay" class="flex">Flow Rate 0.00 L/m </div>
           </div> -->
-          <div class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
-              <circle cx="5" cy="5" r="5" fill="blue" />
-          </svg>
-          
-              <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium">Chart</span>
-          </div>
-          
-          
-            <div class="p-4">
-              <canvas id="flowRateChart" width="400" height="200" ></canvas>
+                    <div
+                        class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="10" height="10">
+                            <circle cx="5" cy="5" r="5" fill="blue" />
+                        </svg>
 
+                        <span class="inline-flex items-center p-3 ml-3 w-full h-10 text-sm font-medium">Chart</span>
+                    </div>
+
+
+                    <div class="p-4">
+                        <canvas id="flowRateChart" width="400" height="200"></canvas>
+
+                    </div>
+                    <div class="p-4">
+                        <p><strong>Flow Rate:</strong> <span id="currentFlowRate">0.00</span> L/m</p>
+                    </div>
+
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                    <button onclick="closeflowModal();" type="button"
+                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
+                </div>
             </div>
-            <div class="p-4">
-              <p><strong>Flow Rate:</strong> <span id="currentFlowRate">0.00</span> L/m</p>
+        </div>
+    </div>
+
+    <div id="monitor" class="hidden fixed inset-0 z-50 flex justify-center items-center">
+        <!-- Modal Background with opacity -->
+        <div class="absolute inset-0" style="background-color: rgba(0, 0, 0, 0.5);"></div>
+
+        <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                        Monitor Chart
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        onclick="closeMonitor();">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Tutup</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
+
+                    <canvas id="flowRateChartCanvas" width="400" height="200"></canvas>
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                    <button onclick="closeMonitor();" type="button"
+                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
+                </div>
             </div>
-            
-          </div>
-          <!-- Modal footer -->
-          <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-              <button onclick="closeflowModal();" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
-          </div>
-      </div>
-  </div>
-</div>
-
-<div id="monitor" class="hidden fixed inset-0 z-50 flex justify-center items-center">
-  <!-- Modal Background with opacity -->
-  <div class="absolute inset-0" style="background-color: rgba(0, 0, 0, 0.5);"></div>
-
-  <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto bg-white rounded-lg shadow dark:bg-gray-700">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <!-- Modal header -->
-          <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
-              <h3 class="text-xl font-medium text-gray-900 dark:text-white">
-                  Monitor Chart
-              </h3>
-              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="closeMonitor();">
-                  <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                  <span class="sr-only">Tutup</span>
-              </button>
-          </div>
-          <!-- Modal body -->
-          <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
-       
-            <canvas id="flowRateChartCanvas" width="400" height="200"></canvas>
-          </div>
-          <!-- Modal footer -->
-          <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-              <button onclick="closeMonitor();" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
-          </div>
-      </div>
-  </div>
-</div>
-<!-- <script src="public\js\pages\shipRecorder.js"></script> -->
-<!-- start acumulation script -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.0/dist/chartjs-plugin-zoom.min.js"></script>
-<!-- <script src="public\js\pages\displayChart.js"></script> -->
+        </div>
+    </div>
+    <!-- <script src="public\js\pages\shipRecorder.js"></script> -->
+    <!-- start acumulation script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.0.0/dist/chartjs-plugin-zoom.min.js"></script>
+    <!-- <script src="public\js\pages\displayChart.js"></script> -->
 
 
-<script>
- var ctx = document.getElementById('csvFlowRateChart').getContext('2d');
-  var csvFlowRateChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-          labels: [], // Label waktu
-          datasets: [{
-              label: 'Flow Rate (L/m)',
-              data: [], // Data flow rate
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 2,
-              fill: false,
-              tension: 0.1,
-              pointRadius: 0 // Hilangkan titik di garis
-          }]
-      },
-      options: {
-          responsive: true,
-          scales: {
-              x: {
-                  title: { display: true, text: 'Time (hh:mm:ss)' }
-              },
-              y: {
-                  beginAtZero: true,
-                  title: { display: true, text: 'Flow Rate (L/m)' }
-              }
-          },
-          plugins: {
-              zoom: {
-                  zoom: {
-                      wheel: {
-                          enabled: true // Zoom dengan scroll
-                      },
-                      pinch: {
-                          enabled: true // Zoom dengan pinch (untuk touch devices)
-                      },
-                      mode: 'x' // Zoom hanya pada sumbu x (waktu)
-                  },
-                  pan: {
-                      enabled: true, // Pan dengan klik dan drag
-                      mode: 'xy', // Pan hanya pada sumbu x (waktu)
-                      onPan: function({ chart }) {
-                          console.log('Panning on', chart.chartArea);
-                      },
-                      onPanComplete: function({ chart }) {
-                          console.log('Panning complete', chart.chartArea);
-                      }
-                  }
-              }
-          }
-      }
-  });
+    <script>
+        var ctx = document.getElementById('csvFlowRateChart').getContext('2d');
+        var csvFlowRateChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], // Label waktu
+                datasets: [{
+                    label: 'Flow Rate (L/m)',
+                    data: [], // Data flow rate
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.1,
+                    pointRadius: 0 // Hilangkan titik di garis
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Time (hh:mm:ss)' }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Flow Rate (L/m)' }
+                    }
+                },
+                plugins: {
+                    zoom: {
+                        zoom: {
+                            wheel: {
+                                enabled: true // Zoom dengan scroll
+                            },
+                            pinch: {
+                                enabled: true // Zoom dengan pinch (untuk touch devices)
+                            },
+                            mode: 'x' // Zoom hanya pada sumbu x (waktu)
+                        },
+                        pan: {
+                            enabled: true, // Pan dengan klik dan drag
+                            mode: 'xy', // Pan hanya pada sumbu x (waktu)
+                            onPan: function ({ chart }) {
+                                console.log('Panning on', chart.chartArea);
+                            },
+                            onPanComplete: function ({ chart }) {
+                                console.log('Panning complete', chart.chartArea);
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
-  var flowRates = [];
-  var accumulatedVolume = 0;
-  var minuteCounter = 0;
-  var flowRatePerSecond = [];
-  var averagePerMinute = [];
-  var accumulatedAverage = 0;
+        var flowRates = [];
+        var accumulatedVolume = 0;
+        var minuteCounter = 0;
+        var flowRatePerSecond = [];
+        var averagePerMinute = [];
+        var accumulatedAverage = 0;
 
-  function handleCSVUpload(event) {
-      var file = event.target.files[0];
-      if (file && file.name.endsWith('.csv')) {
-          var reader = new FileReader();
-          reader.onload = function(e) {
-              var content = e.target.result;
-              parseCSV(content);
-          };
-          reader.readAsText(file);
-      } else {
-          alert('Please upload a valid CSV file.');
-      }
-  }
-
-  function parseCSV(csvContent) {
-      var lines = csvContent.split('\n');
-      var labels = [];
-      var data = [];
-      var minuteData = [];
-
-      for (var i = 1; i < lines.length; i++) {
-          var row = lines[i].split(',');
-          if (row.length === 3) {
-              var time = row[0].trim();
-              var flowRate = parseFloat(row[2].trim());
-              
-              if (!isNaN(flowRate)) {
-                  labels.push(time);
-                  data.push(flowRate);
-                  flowRates.push(flowRate);
-                  
-                  // Track flow rate per second for the current minute
-                  flowRatePerSecond.push(flowRate);
-                  
-                  // If we have 60 data points (1 minute), calculate averages
-                  if (flowRatePerSecond.length === 60) {
-                      calculateAverages();
-                  }
-              }
-          }
-      }
-
-      // Update chart with parsed data
-      csvFlowRateChart.data.labels = labels;
-      csvFlowRateChart.data.datasets[0].data = data;
-      csvFlowRateChart.update();
-
-      // Update current flow rate display
-      currentFlowRate = flowRates[flowRates.length - 1];
-      document.getElementById('currentFlowRateDisplay').textContent = currentFlowRate.toFixed(2);
-  }
-
-  function calculateAverages() {
-      var sum = flowRatePerSecond.reduce((a, b) => a + b, 0);
-      var minuteAverage = sum; // No division by 60, as per your approach
-      averagePerMinute.push(minuteAverage);
-
-      accumulatedAverage += minuteAverage;
-
-      // Calculate volume and carbon emissions
-      var volume = minuteAverage;
-      var carbonEmission = calculateCarbonEmission(volume);
-      var conversionResult = calculateConversion(carbonEmission);
-
-      // Update displays
-      updateDisplays(minuteAverage, carbonEmission, conversionResult);
-
-      // Reset flowRate per second array for the next minute
-      flowRatePerSecond = [];
-  }
-
-  function calculateCarbonEmission(volume) {
-      return volume * 0.89;  // Calculate emission in grams
-  }
-
-  function calculateConversion(carbonEmission) {
-      return (carbonEmission * 3.151) / (192 * 2);  // Conversion to g-CO2/ton.Nm
-  }
-
-  function updateDisplays(minuteAverage, carbonEmission, conversionResult) {
-      // Display carbon emission
-      var carbonEmissionText = `Minute ${averagePerMinute.length}: ${carbonEmission.toFixed(2)} grams`;
-      var listItem = document.createElement("li");
-      listItem.textContent = carbonEmissionText;
-      document.getElementById('carbonEmissionsList').appendChild(listItem);
-
-      // Display conversion result
-      var conversionText = `Minute ${averagePerMinute.length}: ${conversionResult.toFixed(2)} g-CO2/ton.Nm`;
-      var listItem3 = document.createElement("li");
-      listItem3.textContent = conversionText;
-      document.getElementById('conversionResultsList').appendChild(listItem3);
-
-      // Display average flow rate
-      var minuteText = `Minute ${averagePerMinute.length}: ${minuteAverage.toFixed(2)} L/m`;
-      var listItem2 = document.createElement("li");
-      listItem2.textContent = minuteText;
-      document.getElementById('averageFlowRatesList').appendChild(listItem2);
-
-      // Display accumulated average
-      document.getElementById('accumulatedAverage').textContent = accumulatedAverage.toFixed(2);
-  }
-</script>
-<script>
-// Variables to store flowRate data from WebSocket
-var flowRate = 0;
-var flowRatePerSecond = [];
-var accumulatedAverage = 0;
-var totalFuelConsumption = 0;
-var totalCiiAttained = 0;
-
-// WebSocket to get flowRate data
-var ws = new WebSocket('ws://146.190.111.176:1880/ws/flowrate');
-// var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
-ws.onmessage = function (event) {
-    console.log("Raw data from WebSocket:", event.data);
-    try {
-        var data = JSON.parse(event.data); // Parsing data dari server
-        console.log("Parsed data:", data);
-
-        // Gunakan 'flowrate' (huruf kecil) yang sesuai dengan data yang diterima
-        var flowRate = (data && !isNaN(parseFloat(data.flowrate))) ? parseFloat(data.flowrate) : 0;
-
-        console.log("Flow Rate:", flowRate);
-        // Update elemen dengan ID 'currentFlowRate' jika valid
-        document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
-    } catch (error) {
-        console.error("Error parsing WebSocket message:", error);
-    }
-};
-
-
-// Track minute count
-var currentMinute = 0;
-
-var isMinuteCalculated = false; // Prevent recalculations for the same data
-
-// Interval to process data every second
-setInterval(function () {
-  if (flowRate > 0 && !isMinuteCalculated) {
-    // Push valid flow rate to the array
-    flowRatePerSecond.push(flowRate);
-
-    // Calculate average every 60 seconds
-    if (flowRatePerSecond.length === 60) {
-      calculateAverages();
-      isMinuteCalculated = true; // Prevent further calculations for this minute
-    }
-  }
-
-}, 1000);
-
-// Function to calculate average flowRate per minute and emissions
-function calculateAverages() {
-  var sum = flowRatePerSecond.reduce((a, b) => a + b, 0);
-  var minuteAverage = sum / 60; // Calculate minute average
-
-  // Calculate volume and carbon emissions
-  var volume = minuteAverage;
-  var carbonEmission = calculateCarbonEmission(volume);
-  var conversionResult = calculateConversion(carbonEmission);
-
-  // Update displays
-  appendToList('carbonEmissionsList', `Minute ${currentMinute + 1}: ${carbonEmission.toFixed(2)} grams`);
-  appendToList('conversionResultsList', `Minute ${currentMinute + 1}: ${conversionResult.toFixed(10)} g-CO2/ton.Nm`);
-  appendToList('averageFlowRatesList', `Minute ${currentMinute + 1}: ${minuteAverage.toFixed(2)} L/m`);
-
-  // Update accumulated averages
-  accumulatedAverage += minuteAverage;
-  document.getElementById('accumulatedAverage').textContent = accumulatedAverage.toFixed(2);
-
-  totalFuelConsumption += carbonEmission;
-  document.getElementById('totalFuelConsumption').textContent = totalFuelConsumption.toFixed(2);
-
-  totalCiiAttained += conversionResult;
-  document.getElementById('totalCiiAttained').textContent = totalCiiAttained.toFixed(2);
-
-  // Increment minute counter and reset
-  currentMinute++;
-  flowRatePerSecond = []; // Reset data for the next minute
-  isMinuteCalculated = false; // Allow for calculations in the next minute
-}
-
-// Function to calculate carbon emission from volume (liter)
-function calculateCarbonEmission(volume) {
-  return volume * 1000; // Calculate emission in grams
-}
-
-// Function for emission conversion
-function calculateConversion(carbonEmission) {
-  return (carbonEmission * 3.151040) / (192 * 2.5);
-}
-
-// Helper function to append text to a list
-function appendToList(listId, text) {
-  var listItem = document.createElement('li');
-  listItem.textContent = text;
-  document.getElementById(listId).appendChild(listItem);
-}
-
-</script>
-
-
-
-<script>
-  // Modal control functions
-  function openflowModal() {
-      document.getElementById('flowModal').classList.remove('hidden');
-  }
-
-  function closeflowModal() {
-      document.getElementById('flowModal').classList.add('hidden');
-  }
-  function openMonitor() {
-      document.getElementById('monitor').classList.remove('hidden');
-  }
-
-  function closeMonitor() {
-      document.getElementById('monitor').classList.add('hidden');
-  }
-
-  function opencarbonModal() {
-      document.getElementById('carbonModal').classList.remove('hidden');
-  }
-
-  function closeCarbonModal() {
-      document.getElementById('carbonModal').classList.add('hidden');
-  }
-
-  function opendisplayDataModal() {
-      document.getElementById('displayDataModal').classList.remove('hidden');
-  }
-
-  function closeDisplayDataModal() {
-      document.getElementById('displayDataModal').classList.add('hidden');
-  }
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-  var recording = false;  // To track if recording is active
-  var recordedData = [];  // Store recorded data
-  var flowRate = 0;  // Initialize flowRate
-  var ws = new WebSocket('ws://146.190.111.176:1880/ws/flowrate');
-  // var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
-  var lastRecordedSecond = null; // Track the last recorded second
-  ws.onmessage = function(event) {
-    console.log('Received WebSocket data:', event.data);
-
-    try {
-        // Parse data sebagai JSON
-        var data = JSON.parse(event.data);
-
-        // Ambil flowrate dan waktu dari data
-        flowRate = parseFloat(data.flowrate); // Langsung konversi ke float
-
-        // Parse waktu ke objek Date
-        var currentTime = new Date();
-        var [hours, minutes, seconds] = data.time.split(':').map(Number); // Split "19:30:04"
-        currentTime.setHours(hours, minutes, seconds);
-
-        if (recording) {
-            var currentSecond = currentTime.getSeconds();
-
-            // Record hanya jika detik berubah
-            if (currentSecond % 1 === 0 && lastRecordedSecond !== currentSecond) {
-                lastRecordedSecond = currentSecond;
-
-                var time = formatTime(currentTime);  // Format waktu ke hh:mm:ss
-                var second = recordedData.length + 1; // Incremental second counter
-                recordedData.push([time, second, flowRate]);
+        function handleCSVUpload(event) {
+            var file = event.target.files[0];
+            if (file && file.name.endsWith('.csv')) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var content = e.target.result;
+                    parseCSV(content);
+                };
+                reader.readAsText(file);
+            } else {
+                alert('Please upload a valid CSV file.');
             }
         }
-    } catch (error) {
-        console.error('Error parsing WebSocket message:', error);
-    }
-};
 
+        function parseCSV(csvContent) {
+            var lines = csvContent.split('\n');
+            var labels = [];
+            var data = [];
+            var minuteData = [];
 
-  // Handle WebSocket errors
-  ws.onerror = function(error) {
-      console.error('WebSocket Error:', error);
-  };
+            for (var i = 1; i < lines.length; i++) {
+                var row = lines[i].split(',');
+                if (row.length === 3) {
+                    var time = row[0].trim();
+                    var flowRate = parseFloat(row[2].trim());
 
-  // Handle WebSocket connection open and close
-  ws.onopen = function() {
-      console.log('WebSocket connection established');
-  };
+                    if (!isNaN(flowRate)) {
+                        labels.push(time);
+                        data.push(flowRate);
+                        flowRates.push(flowRate);
 
-  ws.onclose = function() {
-      console.log('WebSocket connection closed');
-  };
+                        // Track flow rate per second for the current minute
+                        flowRatePerSecond.push(flowRate);
 
-  // Format time as hh:mm:ss
-  function formatTime(date) {
-    var hrs = date.getHours();
-    var mins = date.getMinutes();
-    var secs = date.getSeconds();
-    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  }
+                        // If we have 60 data points (1 minute), calculate averages
+                        if (flowRatePerSecond.length === 60) {
+                            calculateAverages();
+                        }
+                    }
+                }
+            }
 
-  // Function to export recorded data as CSV
-  function exportToCSV() {
-    const filteredData = recordedData.filter((row, index, self) => {
-        return self.findIndex(r => r[1] === row[1]) === index; // Keep the first occurrence of each 'Second'
-    });
+            // Update chart with parsed data
+            csvFlowRateChart.data.labels = labels;
+            csvFlowRateChart.data.datasets[0].data = data;
+            csvFlowRateChart.update();
 
-    var csvContent = "Time,Second,FlowRate\n";
-    filteredData.forEach(function(row) {
-        csvContent += row.join(",") + "\n";
-    });
-
-    var encodedUri = encodeURI("data:text/csv;charset=utf-8," + csvContent);
-    var link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "flowRateData.csv");
-    document.body.appendChild(link);
-    link.click();  // Trigger download
-  }
-
-  // Setup chart for flowRate
-  var ctx = document.getElementById('flowRateChart').getContext('2d');
-  var flowRateChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-          labels: [],
-          datasets: [{
-              label: 'Flow Rate (L/m)',
-              data: [],
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 2,
-              fill: false,
-              tension: 0.1
-          }]
-      },
-      options: {
-          scales: {
-              x: {
-                  title: { display: true, text: 'Time (hh:mm:ss)' }
-              },
-              y: {
-                  beginAtZero: true,
-                  title: { display: true, text: 'Flow Rate (L/m)' }
-              }
-          }
-      }
-  });
-
-  // Update chart every second if recording is active
-  setInterval(function() {
-    if (recording && recordedData.length > 0) {
-        var latestData = recordedData[recordedData.length - 1]; // Get the most recent data
-        flowRateChart.data.labels.push(latestData[0]);  // Add time (formatted) to chart labels
-        flowRateChart.data.datasets[0].data.push(latestData[2]);  // Add flow rate to chart dataset
-
-        // Limit number of data points displayed on chart (optional)
-        if (flowRateChart.data.labels.length > 100) {  // Example: limit to 100 data points
-            flowRateChart.data.labels.shift();
-            flowRateChart.data.datasets[0].data.shift();
+            // Update current flow rate display
+            currentFlowRate = flowRates[flowRates.length - 1];
+            document.getElementById('currentFlowRateDisplay').textContent = currentFlowRate.toFixed(2);
         }
 
-        flowRateChart.update();  // Update chart
-    }
-  }, 1000);  // Update every second
+        function calculateAverages() {
+            var sum = flowRatePerSecond.reduce((a, b) => a + b, 0);
+            var minuteAverage = sum; // No division by 60, as per your approach
+            averagePerMinute.push(minuteAverage);
 
-  // Event listeners for start/stop recording
-  document.getElementById('startRecordingBtn').addEventListener('click', function() {
-      recording = true;
-      recordedData = [];  // Reset data when starting recording
-      document.getElementById('startRecordingBtn').disabled = true;
-      document.getElementById('stopRecordingBtn').disabled = false;
-      console.log('Recording started');
-  });
+            accumulatedAverage += minuteAverage;
 
-  document.getElementById('stopRecordingBtn').addEventListener('click', function() {
-      recording = false;
-      exportToCSV();  // Export data when stopped
-      document.getElementById('startRecordingBtn').disabled = false;
-      document.getElementById('stopRecordingBtn').disabled = true;
-      console.log('Recording stopped and data exported');
-  });
-</script>
+            // Calculate volume and carbon emissions
+            var volume = minuteAverage;
+            var carbonEmission = calculateCarbonEmission(volume);
+            var conversionResult = calculateConversion(carbonEmission);
 
+            // Update displays
+            updateDisplays(minuteAverage, carbonEmission, conversionResult);
 
+            // Reset flowRate per second array for the next minute
+            flowRatePerSecond = [];
+        }
 
+        function calculateCarbonEmission(volume) {
+            return volume * 0.89;  // Calculate emission in grams
+        }
 
+        function calculateConversion(carbonEmission) {
+            return (carbonEmission * 3.151) / (192 * 2);  // Conversion to g-CO2/ton.Nm
+        }
 
-<!-- end flow rate -->
- 
+        function updateDisplays(minuteAverage, carbonEmission, conversionResult) {
+            // Display carbon emission
+            var carbonEmissionText = `Minute ${averagePerMinute.length}: ${carbonEmission.toFixed(2)} grams`;
+            var listItem = document.createElement("li");
+            listItem.textContent = carbonEmissionText;
+            document.getElementById('carbonEmissionsList').appendChild(listItem);
 
-<div id="trackShipModal" data-modal-placement="top-right" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
-  <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto">
-      <!-- Modal content -->
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <!-- Modal header -->
-          <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
-              <h3 class="text-xl font-medium text-gray-900 dark:text-white">
-                  Pelacakan Kapal
-              </h3>
-              <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" onclick="closeTrackShipModal();" >
-                  <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                  <span class="sr-only">Tutup </span>
-              </button>
-          </div>
-          <!-- Modal body -->
-          <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
-            <div class="mb-4">
-              <label class="block text-gray-700 text-sm font-bold mb-2" for="mmsi">
-                MSSI Kapal Yang Ingin Dilacak
-              </label>
-              <!-- <input  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="east_north" type="text" value="" > -->
-              <textarea placeholder="MMSI1,MMSI2...." class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" cols="30" rows="10" id="trackShipInput"></textarea>
-          </div>
-              
-          </div>
-          <!-- Modal footer -->
-          <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-              <button onclick="saveTrackShip();" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Simpan & Muat Ulang</button>
-              <button onclick="closeTrackShipModal();"  type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
-          </div>
-      </div>
-  </div>
-</div>
+            // Display conversion result
+            var conversionText = `Minute ${averagePerMinute.length}: ${conversionResult.toFixed(2)} g-CO2/ton.Nm`;
+            var listItem3 = document.createElement("li");
+            listItem3.textContent = conversionText;
+            document.getElementById('conversionResultsList').appendChild(listItem3);
 
+            // Display average flow rate
+            var minuteText = `Minute ${averagePerMinute.length}: ${minuteAverage.toFixed(2)} L/m`;
+            var listItem2 = document.createElement("li");
+            listItem2.textContent = minuteText;
+            document.getElementById('averageFlowRatesList').appendChild(listItem2);
 
-<div id="toast-default" class="absolute z-50 flex top-5 left-5 items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert" style="display: none;">
-  <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 ">
-      <!-- <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"></path></svg> -->
-      <svg aria-hidden="true" class="inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
-        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
-      </svg>
-      <span class="sr-only" ></span>
-  </div>
-  <div class="ml-3 text-sm font-normal" id="loading-info_db"></div>
-  <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-default" aria-label="Close">
-      <span class="sr-only">Close</span>
-      <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-  </button>
-</div>
+            // Display accumulated average
+            document.getElementById('accumulatedAverage').textContent = accumulatedAverage.toFixed(2);
+        }
+    </script>
+    <script>
+        // Variables to store flowRate data from WebSocket
+        var flowRate = 0;
+        var flowRatePerSecond = [];
+        var accumulatedAverage = 0;
+        var totalFuelConsumption = 0;
+        var totalCiiAttained = 0;
+
+        // WebSocket to get flowRate data
+        var ws = new WebSocket('ws://128.199.224.125:1880/ws/flowrate');
+        // var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
+        ws.onmessage = function (event) {
+            try {
+                var data = JSON.parse(event.data); // Parsing data dari server
+
+                // Gunakan 'flowrate' (huruf kecil) yang sesuai dengan data yang diterima
+                var flowRate = (data && !isNaN(parseFloat(data.flowrate))) ? parseFloat(data.flowrate) : 0;
+
+                //console.log("Flow Rate:", flowRate);
+                // Update elemen dengan ID 'currentFlowRate' jika valid
+                document.getElementById('currentFlowRate').textContent = flowRate.toFixed(2);
+            } catch (error) {
+                console.error("Error parsing WebSocket message:", error);
+            }
+        };
 
 
-<div id="toast-default2" class="absolute z-50 flex bottom-5 left-5 items-center w-full max-w-md p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert" style="display: none;">
-  
-  <div class="ml-3 text-sm font-normal" id="loading-info_db2">
-      <span> <strong>Lat : </strong> <p id="cursorLat"></p> </span><br>
-      <span> <strong>Lng : </strong> <p id="cursorLon"></p> </span>
-  </div>
-  <button onclick="closeCursorInfoModal();" type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"  aria-label="Close">
-      <span class="sr-only">Close</span>
-      <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-  </button>
-</div>
-<!-- END ALERT MODAL -->
+        // Track minute count
+        var currentMinute = 0;
 
-  <!-- // END PAGE CONTENT -->
+        var isMinuteCalculated = false; // Prevent recalculations for the same data
 
-   <!-- FOOTER -->
-  <!-- Insert this line above script imports  -->
-  <script>
-    document.getElementById('fixedButton').addEventListener('click', function() {
-      var contentToToggle = document.getElementById('contentToToggle');
-      contentToToggle.classList.toggle('hidden');
-    });
-    if (typeof module === 'object') {window.module = module; module = undefined;} 
-  </script>
+        // Interval to process data every second
+        setInterval(function () {
+            if (flowRate > 0 && !isMinuteCalculated) {
+                // Push valid flow rate to the array
+                flowRatePerSecond.push(flowRate);
 
-  <!-- <script src="public/vendor/jquery/dist/jquery.js" ></script> -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+                // Calculate average every 60 seconds
+                if (flowRatePerSecond.length === 60) {
+                    calculateAverages();
+                    isMinuteCalculated = true; // Prevent further calculations for this minute
+                }
+            }
 
-  <script src="public/vendor/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+        }, 1000);
 
-  <script src="public/vendor/dom-factory/dist/dom-factory.js"></script>
-  <script src="public/vendor/material-design-kit/dist/material-design-kit.js"></script>
+        // Function to calculate average flowRate per minute and emissions
+        function calculateAverages() {
+            var sum = flowRatePerSecond.reduce((a, b) => a + b, 0);
+            var minuteAverage = sum / 60; // Calculate minute average
 
-  <script src="public/js/app.js"></script>
-  
+            // Calculate volume and carbon emissions
+            var volume = minuteAverage;
+            var carbonEmission = calculateCarbonEmission(volume);
+            var conversionResult = calculateConversion(carbonEmission);
+
+            // Update displays
+            appendToList('carbonEmissionsList', `Minute ${currentMinute + 1}: ${carbonEmission.toFixed(2)} grams`);
+            appendToList('conversionResultsList', `Minute ${currentMinute + 1}: ${conversionResult.toFixed(10)} g-CO2/ton.Nm`);
+            appendToList('averageFlowRatesList', `Minute ${currentMinute + 1}: ${minuteAverage.toFixed(2)} L/m`);
+
+            // Update accumulated averages
+            accumulatedAverage += minuteAverage;
+            document.getElementById('accumulatedAverage').textContent = accumulatedAverage.toFixed(2);
+
+            totalFuelConsumption += carbonEmission;
+            document.getElementById('totalFuelConsumption').textContent = totalFuelConsumption.toFixed(2);
+
+            totalCiiAttained += conversionResult;
+            document.getElementById('totalCiiAttained').textContent = totalCiiAttained.toFixed(2);
+
+            // Increment minute counter and reset
+            currentMinute++;
+            flowRatePerSecond = []; // Reset data for the next minute
+            isMinuteCalculated = false; // Allow for calculations in the next minute
+        }
+
+        // Function to calculate carbon emission from volume (liter)
+        function calculateCarbonEmission(volume) {
+            return volume * 1000; // Calculate emission in grams
+        }
+
+        // Function for emission conversion
+        function calculateConversion(carbonEmission) {
+            return (carbonEmission * 3.151040) / (192 * 2.5);
+        }
+
+        // Helper function to append text to a list
+        function appendToList(listId, text) {
+            var listItem = document.createElement('li');
+            listItem.textContent = text;
+            document.getElementById(listId).appendChild(listItem);
+        }
+
+    </script>
 
 
-<script src="public/vendor/toastr/build/toastr.min.js"></script>
-<script src="public/js/plugins/toastr.js"></script>
-<!-- Insert this line after script imports -->
-<script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>
+
+    <script>
+        // Modal control functions
+        function openflowModal() {
+            document.getElementById('flowModal').classList.remove('hidden');
+        }
+
+        function closeflowModal() {
+            document.getElementById('flowModal').classList.add('hidden');
+        }
+        function openMonitor() {
+            document.getElementById('monitor').classList.remove('hidden');
+        }
+
+        function closeMonitor() {
+            document.getElementById('monitor').classList.add('hidden');
+        }
+
+        function opencarbonModal() {
+            document.getElementById('carbonModal').classList.remove('hidden');
+        }
+
+        function closeCarbonModal() {
+            document.getElementById('carbonModal').classList.add('hidden');
+        }
+
+        function opendisplayDataModal() {
+            document.getElementById('displayDataModal').classList.remove('hidden');
+        }
+
+        function closeDisplayDataModal() {
+            document.getElementById('displayDataModal').classList.add('hidden');
+        }
+
+        function openCiiModal() {
+            document.getElementById('ciiModal').classList.remove('hidden');
+        }
+
+        function closeCiiModal() {
+            document.getElementById('ciiModal').classList.add('hidden');
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        var recording = false;  // To track if recording is active
+        var connected = false;
+        var recordedData = [];  // Store recorded data
+        var flowRate = 0;  // Initialize flowRate
+        var ws = new WebSocket('ws://128.199.224.125:1880/ws/flowrate');
+        var cacheWs = new WebSocket('ws://128.199.224.125:1880/ws/cache');
+        // var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
+        var lastRecordedSecond = null; // Track the last recorded second
+        ws.onmessage = function (event) {
+            console.log('Received WebSocket data:', event.data);
+
+            try {
+                var data = JSON.parse(event.data);
+
+                if (typeof data.cachedTime !== 'undefined') {
+                    if (recording && data.cachedTime.length > 0) {
+
+                        //let currentLabel = flowRateChart.data.labels
+                        //let currentValues = flowRateChart.data.datasets[0].data
+//
+                        //let mappedValue = currentLabel.map((value, index) => ({
+                        //    time: value,
+                        //    data: currentValues[index]
+                        //}))
+//
+                        //console.log(mappedValue)
+                        //console.log(data.value)
+//
+                        //// Menggabungkan data asli dan pembaruan
+                        //const mergedData = [...mappedValue];
+//
+                        //// Membuat map untuk mempercepat akses pembaruan
+                        //const updatesMap = new Map(data.value.map(update => [update.time, update.data]));
+//
+                        //// Variabel untuk menyimpan nilai sebelumnya
+                        //let currentValue = currentValues[0] ?? 0;
+//
+                        //// Loop untuk memperbarui nilai berdasarkan pembaruan
+                        //for (let item of mergedData) {
+                        //    if (updatesMap.has(item.time)) {
+                        //        currentValue = updatesMap.get(item.time);
+                        //    }
+                        //    item.data = currentValue;
+                        //}
+//
+                        //console.log(mergedData)
+
+                        if (flowRateChart.data.datasets[0].data.length > 0) {
+                            flowRateChart.data.labels.splice(
+                                flowRateChart.data.labels.length - 1,
+                                0,
+                                ...data.cachedTime
+                            );
+
+                            flowRateChart.data.datasets[0].data.splice(
+                                flowRateChart.data.datasets[0].data.length - 1,
+                                0,
+                                ...data.value.map(item => item.data)
+
+                            );
+                        }
+                        // Memperbarui chart
+                        cacheWs.send(JSON.stringify(data.cachedTime));
+                        flowRateChart.update();
+                    }
+                } else {
+                    // DATA DIKIRIM NORMAL
+                    flowRate = parseFloat(data.flowrate);
+
+                    // Parse waktu ke objek Date
+                    var currentTime = new Date();
+                    var [hours, minutes, seconds] = data.time.split(':').map(Number); // Split "19:30:04"
+                    currentTime.setHours(hours, minutes, seconds);
+
+                    if (recording) {
+                        var currentSecond = currentTime.getSeconds();
+
+                        // Record hanya jika detik berubah
+                        if (currentSecond % 1 === 0 && lastRecordedSecond !== currentSecond) {
+                            lastRecordedSecond = currentSecond;
+
+                            var time = formatTime(currentTime);
+                            var second = recordedData.length + 1;
+                            recordedData.push([time, second, flowRate]);
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error parsing WebSocket message:', error);
+            }
+        };
 
 
-<!-- <script>document.documentElement.classList.add('dark');</script> -->
-<script>if (window.module) module = window.module;</script>
-<script src="https://cdn.jsdelivr.net/npm/geolib@3.3.4/lib/index.min.js"></script>
-<script src="library/map.js"></script> 
+        // Handle WebSocket errors
+        ws.onerror = function (error) {
+            console.error('WebSocket Error:', error);
+        };
 
+        // Handle WebSocket connection open and close
+        ws.onopen = function () {
+            console.log('WebSocket connection established');
+            connected = true
+        };
+
+        ws.onclose = function () {
+            console.log('WebSocket connection closed');
+            connected = false
+        };
+
+        // Format time as hh:mm:ss
+        function formatTime(date) {
+            var hrs = date.getHours();
+            var mins = date.getMinutes();
+            var secs = date.getSeconds();
+            return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Function to export recorded data as CSV
+        function exportToCSV() {
+            const filteredData = recordedData.filter((row, index, self) => {
+                return self.findIndex(r => r[1] === row[1]) === index; // Keep the first occurrence of each 'Second'
+            });
+
+            var csvContent = "Time,Second,FlowRate\n";
+            filteredData.forEach(function (row) {
+                csvContent += row.join(",") + "\n";
+            });
+
+            var encodedUri = encodeURI("data:text/csv;charset=utf-8," + csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "flowRateData.csv");
+            document.body.appendChild(link);
+            link.click();  // Trigger download
+        }
+
+        // Setup chart for flowRate
+        var ctx = document.getElementById('flowRateChart').getContext('2d');
+        var flowRateChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Flow Rate (L/m)',
+                    data: [],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Time (hh:mm:ss)' }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Flow Rate (L/m)' }
+                    }
+                }
+            }
+        });
+
+        setInterval(function () {
+            if (recording && recordedData.length > 0 && connected) {
+                const currentTime = new Date();
+
+                const hours = String(currentTime.getHours()).padStart(2, '0'); // Jam (hh)
+                const minutes = String(currentTime.getMinutes()).padStart(2, '0'); // Menit (mm)
+                const seconds = String(currentTime.getSeconds()).padStart(2, '0'); // Detik (ss)
+
+                const formattedTime = `${hours}:${minutes}:${seconds}`;
+                var latestData = recordedData[recordedData.length - 1]; // Get the most recent data
+                flowRateChart.data.labels.push(formattedTime);  // Add time (formatted) to chart labels
+                flowRateChart.data.datasets[0].data.push(latestData[2]);  // Add flow rate to chart dataset
+
+                // Limit number of data points displayed on chart (optional)
+                if (flowRateChart.data.labels.length > 100) {  // Example: limit to 100 data points
+                    flowRateChart.data.labels.shift();
+                    flowRateChart.data.datasets[0].data.shift();
+                }
+
+                flowRateChart.update();  // Update chart
+            }
+        }, 1000);  // Update every second
+
+        // Event listeners for start/stop recording
+        document.getElementById('startRecordingBtn').addEventListener('click', function () {
+            recording = true;
+            recordedData = [];  // Reset data when starting recording
+            document.getElementById('startRecordingBtn').disabled = true;
+            document.getElementById('stopRecordingBtn').disabled = false;
+            console.log('Recording started');
+        });
+
+        document.getElementById('stopRecordingBtn').addEventListener('click', function () {
+            recording = false;
+            exportToCSV();  // Export data when stopped
+            document.getElementById('startRecordingBtn').disabled = false;
+            document.getElementById('stopRecordingBtn').disabled = true;
+            console.log('Recording stopped and data exported');
+        });
+    </script>
+
+
+
+
+
+
+    <!-- end flow rate -->
+
+
+    <div id="trackShipModal" data-modal-placement="top-right" tabindex="-1"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+        <div class="relative p-4 w-full max-w-2xl h-30 md:h-auto">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                        Pelacakan Kapal
+                    </h3>
+                    <button type="button"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        onclick="closeTrackShipModal();">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="sr-only">Tutup </span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-6 space-y-6" style="height: 400px !important; overflow:auto;">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="mmsi">
+                            MSSI Kapal Yang Ingin Dilacak
+                        </label>
+                        <!-- <input  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="east_north" type="text" value="" > -->
+                        <textarea placeholder="MMSI1,MMSI2...."
+                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            cols="30" rows="10" id="trackShipInput"></textarea>
+                    </div>
+
+                </div>
+                <!-- Modal footer -->
+                <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+                    <button onclick="saveTrackShip();" type="button"
+                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Simpan
+                        & Muat Ulang</button>
+                    <button onclick="closeTrackShipModal();" type="button"
+                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="toast-default"
+        class="absolute z-50 flex top-5 left-5 items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+        role="alert" style="display: none;">
+        <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 ">
+            <!-- <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"></path></svg> -->
+            <svg aria-hidden="true"
+                class="inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="currentColor" />
+                <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="currentFill" />
+            </svg>
+            <span class="sr-only"></span>
+        </div>
+        <div class="ml-3 text-sm font-normal" id="loading-info_db"></div>
+        <button type="button"
+            class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+            data-dismiss-target="#toast-default" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+
+
+    <div id="toast-default2"
+        class="absolute z-50 flex bottom-5 left-5 items-center w-full max-w-md p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+        role="alert" style="display: none;">
+
+        <div class="ml-3 text-sm font-normal" id="loading-info_db2">
+            <span> <strong>Lat : </strong>
+                <p id="cursorLat"></p>
+            </span><br>
+            <span> <strong>Lng : </strong>
+                <p id="cursorLon"></p>
+            </span>
+        </div>
+        <button onclick="closeCursorInfoModal();" type="button"
+            class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+            aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+            </svg>
+        </button>
+    </div>
+    <!-- END ALERT MODAL -->
+
+    <!-- // END PAGE CONTENT -->
+
+    <!-- FOOTER -->
+    <!-- Insert this line above script imports  -->
+    <script>
+        document.getElementById('fixedButton').addEventListener('click', function () {
+            var contentToToggle = document.getElementById('contentToToggle');
+            contentToToggle.classList.toggle('hidden');
+        });
+        if (typeof module === 'object') { window.module = module; module = undefined; } 
+    </script>
+
+    <!-- <script src="public/vendor/jquery/dist/jquery.js" ></script> -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script src="public/vendor/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+
+    <script src="public/vendor/dom-factory/dist/dom-factory.js"></script>
+    <script src="public/vendor/material-design-kit/dist/material-design-kit.js"></script>
+
+    <script src="public/js/app.js"></script>
+
+
+
+    <script src="public/vendor/toastr/build/toastr.min.js"></script>
+    <script src="public/js/plugins/toastr.js"></script>
+    <!-- Insert this line after script imports -->
+    <script src="https://unpkg.com/flowbite@1.5.2/dist/flowbite.js"></script>
+
+
+    <!-- <script>document.documentElement.classList.add('dark');</script> -->
+    <script>if (window.module) module = window.module;</script>
+    <script src="https://cdn.jsdelivr.net/npm/geolib@3.3.4/lib/index.min.js"></script>
+    <script src="library/map.js"></script>
+
+    <script>
+        document.getElementById("ciiForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Mencegah form submit default
+
+            const mmsi = document.getElementById("ciiModalMmsiInput").value;
+            const cii = document.getElementById("ciiModalCiiInput").value;
+
+            // Membuat payload dalam format JSON
+            const payload = {
+                mmsi: mmsi,
+                cii: cii
+            };
+
+            // Mengirimkan POST request ke localhost:8080/cii
+            fetch('http://localhost:8080/cii', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response:', data);
+                    // Menangani respons server di sini
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Menangani error di sini
+                });
+        });
+    </script>
 </body>
 
 </html>
