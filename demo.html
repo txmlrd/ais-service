@@ -1126,51 +1126,32 @@ License: You must have a valid license purchased only from themeforest(the above
                 if (typeof data.cachedTime !== 'undefined') {
                     if (recording && data.cachedTime.length > 0) {
 
-                        //let currentLabel = flowRateChart.data.labels
-                        //let currentValues = flowRateChart.data.datasets[0].data
-//
-                        //let mappedValue = currentLabel.map((value, index) => ({
-                        //    time: value,
-                        //    data: currentValues[index]
-                        //}))
-//
-                        //console.log(mappedValue)
-                        //console.log(data.value)
-//
-                        //// Menggabungkan data asli dan pembaruan
-                        //const mergedData = [...mappedValue];
-//
-                        //// Membuat map untuk mempercepat akses pembaruan
-                        //const updatesMap = new Map(data.value.map(update => [update.time, update.data]));
-//
-                        //// Variabel untuk menyimpan nilai sebelumnya
-                        //let currentValue = currentValues[0] ?? 0;
-//
-                        //// Loop untuk memperbarui nilai berdasarkan pembaruan
-                        //for (let item of mergedData) {
-                        //    if (updatesMap.has(item.time)) {
-                        //        currentValue = updatesMap.get(item.time);
-                        //    }
-                        //    item.data = currentValue;
-                        //}
-//
-                        //console.log(mergedData)
+                        let currentLabel = flowRateChart.data.labels
+                        let currentValues = flowRateChart.data.datasets[0].data
+                        let mappedValue = currentLabel.map((value, index) => ({
+                            time: value,
+                            data: currentValues[index]
+                        }))
 
-                        if (flowRateChart.data.datasets[0].data.length > 0) {
-                            flowRateChart.data.labels.splice(
-                                flowRateChart.data.labels.length - 1,
-                                0,
-                                ...data.cachedTime
-                            );
+                        const timeValueSet = mappedValue.reduce((acc, curr) => {
+                            acc[curr.time] = curr.data;
+                            return acc;
+                        }, {});
 
-                            flowRateChart.data.datasets[0].data.splice(
-                                flowRateChart.data.datasets[0].data.length - 1,
-                                0,
-                                ...data.value.map(item => item.data)
+                        const cachedTimeValueSet = data.value.reduce((acc, curr) => {
+                            acc[curr.time] = curr.data;
+                            return acc;
+                        }, {});
 
-                            );
-                        }
-                        // Memperbarui chart
+                        const merged = { ...timeValueSet, ...cachedTimeValueSet }
+
+                        console.log(timeValueSet)
+                        console.log(cachedTimeValueSet)
+                        console.log(merged)
+
+                        const result = Object.values(merged);
+                        flowRateChart.data.datasets[0].data = result
+
                         cacheWs.send(JSON.stringify(data.cachedTime));
                         flowRateChart.update();
                     }
