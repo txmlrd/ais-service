@@ -1112,48 +1112,76 @@ License: You must have a valid license purchased only from themeforest(the above
         var recording = false;  // To track if recording is active
         var connected = false;
         var recordedData = [];  // Store recorded data
+        var cachedData = [];
         var flowRate = 0;  // Initialize flowRate
         var ws = new WebSocket('ws://128.199.224.125:1880/ws/flowrate');
         var cacheWs = new WebSocket('ws://128.199.224.125:1880/ws/cache');
-        // var ws = new WebSocket('ws://localhost:1880/ws/flowrate');
-        var lastRecordedSecond = null; // Track the last recorded second
+        var lastRecordedSecond = null;
         ws.onmessage = function (event) {
-            console.log('Received WebSocket data:', event.data);
+            //console.log('Received WebSocket data:', event.data);
 
             try {
                 var data = JSON.parse(event.data);
 
                 if (typeof data.cachedTime !== 'undefined') {
-                    if (recording && data.cachedTime.length > 0) {
+                    if (!cachedData.includes(data.cachedTime[0])) {
+                        if (recording && data.cachedTime.length > 0) {
 
-                        let currentLabel = flowRateChart.data.labels
-                        let currentValues = flowRateChart.data.datasets[0].data
-                        let mappedValue = currentLabel.map((value, index) => ({
-                            time: value,
-                            data: currentValues[index]
-                        }))
+                            let currentLabel = flowRateChart.data.labels
+                            let currentValues = flowRateChart.data.datasets[0].data
+                            let mappedValue = currentLabel.map((value, index) => ({
+                                time: value,
+                                data: currentValues[index]
+                            }))
 
-                        const timeValueSet = mappedValue.reduce((acc, curr) => {
-                            acc[curr.time] = curr.data;
-                            return acc;
-                        }, {});
+                            const timeValueSet = mappedValue.reduce((acc, curr) => {
+                                acc[curr.time] = curr.data;
+                                return acc;
+                            }, {});
 
-                        const cachedTimeValueSet = data.value.reduce((acc, curr) => {
-                            acc[curr.time] = curr.data;
-                            return acc;
-                        }, {});
+                            const cachedTimeValueSet = data.value.reduce((acc, curr) => {
+                                acc[curr.time] = curr.data;
+                                return acc;
+                            }, {});
 
-                        const merged = { ...timeValueSet, ...cachedTimeValueSet }
+                            const merged = { ...timeValueSet, ...cachedTimeValueSet }
 
-                        console.log(timeValueSet)
-                        console.log(cachedTimeValueSet)
-                        console.log(merged)
+                            const result = Object.values(merged);
+                            flowRateChart.data.datasets[0].data = result
 
-                        const result = Object.values(merged);
-                        flowRateChart.data.datasets[0].data = result
+                            let cachedValue = []
+                            let currentIndex = recordedData.length
+                            const times = recordedData.map(item => item[0])
+                            const filteredIncomming = data.value.filter((item) => !times.includes(item.time))
 
-                        cacheWs.send(JSON.stringify(data.cachedTime));
-                        flowRateChart.update();
+                            filteredIncomming.forEach((item, index) => {
+                                const row = [item.time, currentIndex, item.data]
+                                currentIndex += 1
+                                cachedValue.push(row)
+                            })
+
+                            recordedData.splice(recordedData.length - 1, 0, ...cachedValue)
+                            recordedData[recordedData.length - 1][1] = recordedData.length
+                            //
+                            //const newSet = recordedData.reduce((acc, curr) => {
+                            //    acc[curr[0]] = curr[2];
+                            //    return acc;
+                            //})
+                            //
+                            //const newSetWS = Object.entries(newSet);
+                            //let index = 1
+                            //let newRecordedData = []
+                            //newSetWS.forEach(item => {
+                            //    const temp = [item[0], index, item[1]]
+                            //    index += 1
+                            //    newRecordedData.push(temp)
+                            //})
+                            //recordedData = newRecordedData
+                            cacheWs.send(JSON.stringify(data.cachedTime));
+                            flowRateChart.update();
+
+                            console.log('CACHE UPDATE!!!!!')
+                        }
                     }
                 } else {
                     // DATA DIKIRIM NORMAL
@@ -1209,6 +1237,21 @@ License: You must have a valid license purchased only from themeforest(the above
 
         // Function to export recorded data as CSV
         function exportToCSV() {
+            //const newSet = recordedData.reduce((acc, curr) => {
+            //    acc[curr[0]] = curr[2];
+            //    return acc;
+            //})
+//
+            //const newSetWS = Object.entries(newSet);
+            //let index = 1
+            //let newRecordedData = []
+            //newSetWS.forEach(item => {
+            //    const temp = [item[0], index, item[1]]
+            //    index += 1
+            //    newRecordedData.push(temp)
+            //})
+            //recordedData = newRecordedData
+
             const filteredData = recordedData.filter((row, index, self) => {
                 return self.findIndex(r => r[1] === row[1]) === index; // Keep the first occurrence of each 'Second'
             });
