@@ -176,6 +176,12 @@ function closeHomeModal() {
   modalHome.hide();
 }
 
+// function openThresholdChart() {
+//   modalThresholdDisplay.show();
+// }
+// function closeThresholdChart() {
+//   modalThresholdDisplay.hide();
+// }
 // (Lanjutkan dengan fungsi lainnya yang sudah ada)
 
 function openAlertModal() {
